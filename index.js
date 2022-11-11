@@ -63,36 +63,7 @@ app.use(bodyParser.json({
 }));
 
 let vidfiles={}
-
-const mongoURL='mongodb+srv://Blessings:bless123@clusterschool99.hx9azpa.mongodb.net/video_streams';
-//connection
-const conn= mongoose.createConnection(mongoURL);
 let gfs;
-conn.once('open',()=>{
-    //init gfs-streams 
-    gfs= new mongoose.mongo.GridFSBucket(conn.db,{
-        bucketName:"videos"
-    }); 
-});
-
-const storage = new GridFsStorage({
-    url:mongoURL,
-    file: (req,file)=>{
-        return new Promise((resolve,reject)=>{
-            crypto.randomBytes(16,(err,buf)=>{
-                if(err){
-                    return reject(err);
-                    }
-                const filename = buf.toString('hex')+ path.extname(file.originalname);
-                const fileInfo = {
-                    filename:filename,
-                    bucketName:'videos'
-                                };
-                    resolve(fileInfo);
-            });
-        });
-    }
-});
 
 const store = multer.diskStorage({
     destination: function(req,file,cb){
