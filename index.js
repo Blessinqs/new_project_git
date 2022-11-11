@@ -104,7 +104,6 @@ const uploadVideo = multer({
         fileSize:1024*1024*1024
     }
 })
-const upload = multer({storage});
 
 
 app.use(bodyParser.urlencoded({
