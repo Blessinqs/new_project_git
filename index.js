@@ -170,7 +170,7 @@ http.listen(PORT,async ()=>{
                     if(!videos || videos.length==0){
 
                         res.render('docs',{
-                            videos:videos,
+                            videos:videos ? videos : " ",
                             users:user,
                             profile:user.profile[user.profile.length-1],
                             "isLogin": req.session.user_id ? true : false,
