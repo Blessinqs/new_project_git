@@ -8,13 +8,10 @@ var mongodb = require("mongodb");
 const mongoose = require('mongoose');
 var cors = require('cors');
 const multer = require('multer');
-const {GridFsStorage}=require('multer-gridfs-storage');
-const Grid = require('gridfs-stream');
 const methodOverride= require('method-override');
 var mongoClient = mongodb.MongoClient;
 var ObjectId = mongodb.ObjectId;
 var fs = require('fs');
-var ejslint= require('ejs-lint');
 const io = require('socket.io')(http,{
     cors:{
     origin:"http://localhost/:7070",
@@ -38,11 +35,6 @@ var storeMod = new MongoDBStore({
     collection: 'Sessions'
   });
 app.set("view engine","ejs");
-
-const createAdapter = require("@socket.io/redis-adapter").createAdapter;
-const redis = require("redis");
-//require("dotenv").config();
-
 app.use(expressSession({
     "key":"user_id",
     "secret":"User secret Object Id",
