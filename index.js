@@ -191,7 +191,7 @@ http.listen(PORT,async ()=>{
     console.log("Server Running on port 7070");
 
     //database is done/connection here ----->
-    mongoClient.connect("mongodb://localhost:27017",function(error,client){
+    mongoClient.connect("mongodb+srv://Blessings:bless123@clusterschool99.hx9azpa.mongodb.net/video_streams",function(error,client){
     database=client.db("video_streams");
 
     //home router is here now  ----->
