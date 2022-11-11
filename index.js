@@ -170,7 +170,7 @@ http.listen(PORT,async ()=>{
                     if(!videos || videos.length==0){
 
                         res.render('docs',{
-                            videos:videos ? videos : " ",
+                            videos: videos?videos:"",
                             users:user,
                             profile:user.profile[user.profile.length-1],
                             "isLogin": req.session.user_id ? true : false,
@@ -180,14 +180,14 @@ http.listen(PORT,async ()=>{
 
                             if(user.profile.length>0){  
                                 res.render('docs',{
-                                    videos:videos,
+                                    videos:videos?videos:"",
                                     users:user,
                                     profile:user.profile[user.profile.length-1],
                                     "isLogin": req.session.user_id ? true : false,
                                 });
                             }else{
                                 res.render('docs',{ 
-                                    videos:videos,
+                                    videos: videos?videos:"",
                                     users:user,
                                     profile:"/public/images/avatar.png",
                                     "isLogin": req.session.user_id ? true : false,
@@ -210,7 +210,7 @@ http.listen(PORT,async ()=>{
                 database.collection("videos").find({}).toArray((error,videos)=>{
                     if(!videos || videos.length==0){
                         res.render('tutorial',{
-                            videos:videos,
+                            videos: videos?videos:"",
                             users:user,
                             profile:user.profile[user.profile.length-1],
                             "isLogin": req.session.user_id ? true : false,
@@ -218,14 +218,14 @@ http.listen(PORT,async ()=>{
                         } else {
                             if(user.profile.length>0){  
                                 res.render('tutorial',{
-                                    videos:videos,
+                                    videos:videos?videos:"",
                                     users:user,
                                     profile:user.profile[user.profile.length-1],
                                     "isLogin": req.session.user_id ? true : false,
                                 });
                             }else{
                                 res.render('tutorial',{ 
-                                    videos:videos,
+                                    videos:videos?videos:"",
                                     users:user,
                                     profile:"/public/images/avatar.png",
                                     "isLogin": req.session.user_id ? true : false,
