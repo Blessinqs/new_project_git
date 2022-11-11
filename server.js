@@ -64,7 +64,7 @@ app.use(bodyParser.json({
 
 let vidfiles={}
 
-const mongoURL='mongodb://127.0.0.1:27017/video_streams';
+const mongoURL='mongodb+srv://Blessings:bless123@clusterschool99.hx9azpa.mongodb.net/video_streams';
 //connection
 const conn= mongoose.createConnection(mongoURL);
 let gfs;
