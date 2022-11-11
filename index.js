@@ -34,7 +34,7 @@ app.use("/public",express.static(__dirname+"/public"));
 app.use("/views",express.static(__dirname+"/views"));
 //app.use(cors());
 var storeMod = new MongoDBStore({
-    uri: 'mongodb://localhost:27017/video_streams',
+    uri: 'mongodb+srv://Blessings:bless123@clusterschool99.hx9azpa.mongodb.net/video_streams',
     collection: 'Sessions'
   });
 app.set("view engine","ejs");
