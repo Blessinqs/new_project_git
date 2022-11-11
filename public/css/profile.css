@@ -1,0 +1,368 @@
+
+  .profile-container{
+    padding: 20px 15%;
+    color: #626262;
+    overflow-y: scroll;
+  }
+  
+  .cover-img{
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 14px;
+  }
+  
+  .profile-details{
+    margin-top: 7%;
+    background: var(--bg-color);
+    padding: 5px;
+    border-radius: 4px;
+  }
+
+.profile-details .pd-top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid rgb(16, 59, 59);
+
+}
+  
+.pd-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.pd-row #pic{
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+
+
+.pd-row #pic img{
+    margin-right: 20px;
+    height: 150px; 
+    width: 150px;
+    border: 4px solid teal; 
+    border-radius: 50%;
+  }
+
+  .pd-row #pic button{
+    cursor:pointer;
+    margin-top: 20px; 
+    margin-left:-45px;
+    outline: none;
+    border: none; 
+    width: 40px;
+    height: 40px;
+    background-color: teal; 
+    border-radius: 50%;
+  }
+
+  .profile-details .pd-top .pd-row{
+      display: block;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .pd-row #pic button img{
+      width: 100%;
+      height: 100%;
+  }
+
+  .pd-row .down-pd{
+    border: 1px solid blueviolet;
+    width: 500px;
+  }
+
+  .pd-row .down-pd .friends-pro{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid blueviolet;
+  }
+
+  .pd-row .down-pd .friends-pro .down{
+    height: 55px;
+  }
+
+  .pd-row .down-pd .friends-pro .down img{
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+  }
+
+  .pd-row .down-pd .up{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid blueviolet;
+  }
+  
+  .pd-row .down-pd .up div h3{
+    color: white; 
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .pd-row .down-pd .up div p{
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+  }
+  
+  .pd-row div img{
+    width: 25px;
+    border-radius: 50%;
+    margin-top: 12px;
+  }
+
+  .pd-right{
+  
+    border: 2px solid rgb(47, 48, 85);
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .pd-right .pd-side{
+    margin: 5px;
+    width: 450px;
+    height: 90%;
+    background-color: rgb(16, 60, 61);
+  }
+
+  .pd-right .pd-side .heading {
+   background-color: brown;
+    height: 30px;
+  }
+
+  .pd-right .pd-side .heading p{
+    color: white;
+    text-align: center;
+  }
+
+  .pd-right .pd-side .class-list img{
+    margin: 3px;
+    margin-left: 5px;
+    border-radius: 5px;
+    height: 60px;
+    width: 60px;
+  }
+  
+  .profile-info{
+    margin-top: 10px; 
+  }
+  
+  
+  .profile-intro{
+    background: var(--bg-color);
+    padding: 5px;
+    padding-bottom: 15px;
+    height:65% ;
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: inline-flex; 
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .profile-intro .left-intro{
+    background-color: rgb(125, 112, 156); 
+    width: 55%; 
+    color: white;
+    border-radius: 6px; 
+    margin: 5px;
+    height: 100%;
+    padding: 10px;
+  }
+  
+  .profile-intro .left-intro h3{
+    font-weight: 600;
+    margin-top: 10px; 
+    margin-left: 20px;
+    text-align: center;
+  }
+  
+  .profile-intro .left-intro hr{
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 15px 0;
+  }
+  
+  .profile-intro .left-intro .personal-info .main-info {
+    list-style: none;
+    font-size: 15px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: flex-start;
+    
+  }
+
+  .profile-intro .left-intro .personal-info .main-info .cover-photo{
+    margin: 5px 0;
+    width: 40px;
+    height: 35px;
+    background-color: teal;
+    border-radius: 5px;
+    padding: 3px;
+  }
+  .profile-intro .left-intro .personal-info .main-info .cover-photo img{
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+  }
+
+
+.profile-intro .left-intro .personal-info .main-info span{
+  margin: 10px;
+}
+  
+.profile-intro .main-box{
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+  }
+  
+.profile-intro .main-box .media-box{
+  height: 100%;
+  width: 35%;
+  background-color: teal;
+  margin: 5px;
+}
+
+.photo-box .indiv-photo{
+    display: grid;
+    grid-template-columns:2fr 2fr 2fr;
+    grid-template-rows: 1.5fr 1.5fr;
+    grid-column: 5px;
+    grid-row: 5px;
+    gap: 5px;
+    
+  }
+
+  .photo-box .indiv-photo img{
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    margin: 5px;
+  }
+  
+  .profile-intro p{
+    font-size: 14px;
+  }
+  
+  .friends-box div img{
+    width: 100%;
+    cursor: pointer;
+    padding-bottom: 20px;
+  }
+  .friends-box div{
+    position: relative;
+  }
+  
+  .friends-box p{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  
+
+.pd-right button{
+    background-color: teal;
+    height: 40px;
+    width: 45px;
+}
+
+.photo-box div img{
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1.5fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    height: 250px;
+    width: 270px;
+
+}
+
+
+.pd-image{
+   height: 80px;
+   width: 80px;
+}
+
+.profile-info .info-col .profile-intro ul li{
+    margin: 0;
+}
+.profile-intro .title-box .left-bt{
+    float:right;
+}
+
+.profile-intro .title-box .left-bt button{
+    outline: none;
+    border: none;
+    background-color: lightseagreen;
+    border-radius: 6px;
+    height: 35px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: white;
+}
+
+.footer-pro{
+    position: fixed;
+    top: 92%;
+    margin-left: -23px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 60px;
+    width: 75%;
+    background: var(--nav-color);
+    text-align: center;
+    color:#9a9a9a ;
+    /*padding: 10px 0 20xp ;*/
+    font-size: 14px;
+}
+
+@media(max-width:900px){
+    .profile-container{
+      padding: 20px 5%;
+    }
+    .profile-details{
+      flex-wrap: wrap;
+    }
+  
+    .pd-right{
+      text-align: left;
+      margin-top: 15px;
+    }
+  
+    .pd-right button{
+      margin-left: 0;
+      margin-right: 10px;
+    }
+  
+    .pd-row div h3{
+      font-size: 16px;
+    }
+  
+    .profile-info{
+      flex-wrap: wrap;
+    }
+  
+    .info-col, .post-col{
+      flex-basis: 100%;
+    }
+  }
+  

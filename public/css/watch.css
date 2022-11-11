@@ -1,0 +1,264 @@
+.body-container{
+    padding: 0px;
+   overflow-y: hidden;
+
+}
+
+.main-video-section{
+ 
+ background-color: rgb(70, 65, 92);
+ padding: 2px;
+ margin-top: 7.2%;
+ display: inline-flex;
+ justify-content: flex-start;
+ align-items: flex-start;
+ width: 100%;
+ height: 88%;
+
+}
+
+.main-video-section .main-section{
+
+    width: 70%;
+    height: 100%;
+    margin-right: 6px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgb(93, 91, 114);
+
+}
+
+.main-section .video-board{
+    height: 70%;
+    width: 100%;
+}
+
+.other-details{
+    margin: 2px;
+    background-color: rgb(93, 91, 114);
+    padding: 5px;
+    width: 100%;
+}
+
+.main-section .activity-section{
+    margin: 2px;
+    margin-left: -4px;
+    padding: 5px; 
+    height: 50px;
+    width: 101%;
+    background-color: rgb(47, 39, 85);
+
+}
+
+.main-section .activity-section .activity-btns{
+    display: block;
+    float: right;
+    height: 40px;
+
+}
+
+.activity-section .activity-btns .vid-title{
+    width: 100%;
+    margin: 3px;
+}
+
+
+.activity-section .vid-title {
+   height: 40px;
+   margin-right: 5px;
+   padding: 5px;
+   float: left;
+}
+
+.vid-description{
+    clear: both;
+    color: white;
+    margin-left: -4px;
+    background-color: rgb(47, 39, 85);
+    width: 101%;
+    height: 40px;
+    padding: 6px;
+}
+
+.vid-description p{
+    margin-top: 5px;
+    float: left;
+}
+
+.btn{
+    margin-top: -2px;
+    float: right;
+}
+.btn span{
+    color: white;
+}
+.comments-btn{
+    clear: both;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+}
+
+.comments-btn button{
+    border: none;
+    outline: none;
+    background-color: teal;
+    border-radius: 5px;
+    height: 40px;
+    margin: 5px;
+    margin-top: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.comments-btn button a{
+    text-decoration: none;
+    color: white;
+}
+
+
+.activity-section .activity-btns .activity-icons{
+    padding: 5px;
+    height: 20px;
+
+}
+
+.side-vid-list{
+    width: 30%;
+    height: 100%;
+    background-color: rgb(93, 91, 114);
+}
+
+.bar-video{
+    height: 92%;
+    width: 100%;
+    overflow-y: scroll;
+   
+}
+
+.bar-video::-webkit-scrollbar{
+    width: 6px;
+    
+  }
+  
+.bar-video::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+    background: #b4ace5;  
+  }
+  
+.bar-video::-webkit-scrollbar-thumb {
+    background: #aaa;
+  }
+
+.bar-video::-webkit-scrollbar-thumb:hover {
+    background: #555
+  }
+
+.side-vid-list .head-video{
+    background-color: rgb(53, 116, 116);
+    text-align: center;
+    height:40px;
+    padding: 2px;
+    width: 100%;
+}
+
+.side-vid-list .head-video p{
+    color: rgb(206, 201, 201);
+    font-weight: 600;
+}
+
+.bar-video ul{
+    width: 100%; 
+    height: 100%;
+    
+    
+}
+
+.bar-video ul li{
+    list-style: none;
+    border-radius: 5px; 
+    background-color: rgb(52, 58, 42);
+    width: 97%; 
+    height: 200px;
+    margin-top: 5px; 
+    padding: 2px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.bar-video ul li .one-vid{
+    width: 100%;
+    height: 80%;
+    
+}
+
+.one-vid video{
+    height: 100%;
+    width: 100%;
+}
+
+.vid-info{
+    height: 20%;
+    width: 100%;
+
+    padding: 3px;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+
+.vid-info .description{ 
+    width: 80%;
+    height: 100%;
+    display: inline-flex;
+    justify-content: flex-start;
+    padding-left: 3px;
+    align-items: center;
+}
+
+
+.vid-info .description a{
+    color: rgb(211, 208, 208);
+    text-decoration: none;
+    
+}
+
+.vid-info .view-like-info{
+    width: 20%;
+    height: 100%;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.viewed p{
+    color: rgb(211, 208, 208);
+    margin-right: 5px;
+    margin-top: 15px;
+    font-size: x-small;
+}
+
+.viewed{
+    height: 100%;
+    width: 100%;
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.bar-video ul li img{
+    height: 200px;
+    width: 100%;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+
+.bar-video ul li span{ 
+    color: white;
+  
+}
+

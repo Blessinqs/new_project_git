@@ -1,0 +1,433 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="public/css/all.min.css">
+   
+ 
+    <link rel="stylesheet" href="/public/vendor/bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="/public/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/public/css/chatui.css">
+    <script type="text/javascript" src="/public/vendor/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="/public/css/player.css">
+   
+    <script src="/socket.io/socket.io.js"></script>
+    <title>Tutorials</title>
+</head>
+<body>
+
+
+<div class="body-container" style="display: block; ">
+    <%   
+    var value_img="";
+        if(profile.image){
+            value_img = profile.image;
+        }else{
+            value_img = profile;
+        }  
+    %>
+    <nav>
+        <div class="nav-left">
+           <!-- <img src="/public/images/round_dehaze_white_24dp.png" class="menu-nav">-->
+            <h2 style="color: aliceblue; font-weight:600; margin-left: 20px; margin-top: 10px;"> Easy Schoolz</h2>
+        </div>
+
+        <div class="nav-right">
+         
+            <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                <img src="<%=value_img%>">
+            </div>
+        </div>
+
+        <!-------- Settings Menu -------->
+        <div class="settings-menu">
+            <div id="dark-btn">
+                <span></span>
+            </div>
+            <div class="settings-menu-inner">
+                <div class="user-profile">
+                    <img src="<%=value_img%>">
+                    <div>
+                        <p></p>
+                       <a href="/profile">Your Profile</a>
+                    </div>
+                </div>
+                <hr>
+                <div class="user-profile">
+                    <img src="/public/images/feedback.png">
+                    <div>
+                        <p>Give Feedback</p>
+                        <a href="#">Type here</a>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="settings-links">
+                    <img src="/public/images/setting.png" class="settings-icon">
+                    <a href="#">Settings </a>
+                </div>
+                <div class="settings-links">
+                    <img src="/public/images/help.png" class="settings-icon">
+                    <a href="#">Help</a>
+                </div>
+
+                <div class="settings-links">
+                    <img src="/public/images/logout.png" class="settings-icon">
+                    <a href="#">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tutorial-vids">
+        <div class="tuts">
+            <input type="text">
+            <button>
+                <a href="">Search</a>
+            </button>
+        </div>
+    </div>
+
+    <div class="options">
+        <button >All</button>
+        <button class="menu-btn">Categories</button>
+        <button class="menu-btn">Playlists</button>
+        <button class="menu-btn left-btn" id="show" >Upload</button>
+        <div class="clear" style="clear: both;"></div>
+    </div>
+    
+
+
+    <div id="uploads-modal" >
+        <div class="modal" style="height: 300px;width: 300px; display: block;">
+            <div class="top-form">
+                <div class="close-modal">
+                    &#10006;
+                </div>
+            </div>
+                <form onsubmit="return doPost(this);" enctype="multipart/form-data" style="padding:10px;padding-top:-5px;display: block; justify-content: center;align-items: center;">
+                        <div>
+                            <label >Title</label>
+                            <br>
+                            <input type="text" class="form-control" placeholder="title" style="height: 35px; width: 100%;" name="title"> 
+                                <button type="button" id="form-id" style="height: 35px; border: none;outline: none; border-radius: 5px; background-color: teal; padding-left: 5px;padding-right: 5px;" >Upload Video</button>
+                            <br>
+                            <label >Description</label>
+                            <br>
+                            <input type="hidden" name="img" value="<%=value_img%>">
+                            <input type="text" class="form-control" placeholder="video description.." style="height: 35px; width: 100%;" name="description"> 
+                        </div>
+                        <br>
+                        <input type="submit"  name="submit" id="realpost" value="Post" style="width:100%; margin-top: 5px; margin-left: 20%; height: 35px; border: none;outline: none;border-radius: 5px; background-color: teal; margin: auto; padding-left: 5px;padding-right: 5px;">
+                </form>
+        </div>
+    </div>
+
+    <div class="modal-2" style="height: 200px;width: 300px; display: none;position: fixed;">
+        <div class="top-form">
+            <div class="close-modal-2" style="cursor: pointer;">
+                &#10006;
+            </div>
+        </div>
+            <form enctype="multipart/form-data" style="padding:10px ;" id="form-upload">
+                    <div style="clear: both;">
+                        <h5>Video</h5>
+                        <br>
+                        <input type="file" class="form-control" accept="video/*" name="video">
+                    </div>
+                        <br>
+                    <input type="submit" name="submit" class="submit-file" value="upload" style="margin-left: 20px; height: 35px; border: none;outline: none;border-radius: 5px; background-color: teal; margin: auto; padding-left: 5px;padding-right: 5px;">
+            </form>
+    </div>
+
+
+    <script>
+        
+        $("#show").click(function(){
+            $("#uploads-modal").css("display","block")
+            $(".modal").css("margin-left","30%")
+            $(".modal").css("margin-top","15%")
+        })
+
+        $(".close-modal-2").click(function(){
+            $(".modal-2").css("display","none")
+        })
+
+        $("#realpost").click(()=>{
+            $("#uploads-modal").css("display","none")
+        })
+
+        $(".submit-file").click(()=>{
+            $(".modal-2").css("display","none")
+        })
+
+        $("#form-id").click(function(){
+            $(".modal-2").css("display","block")
+        })
+
+        $(".close-modal").click(function(){
+            $("#uploads-modal").css("display","none")
+        })
+
+       
+        var socket = io();
+        function doPost(form){
+                var formData={
+                    title:form.title.value,
+                    description:form.description.value,
+                    video:videoPath,
+                    user_img:form.img.value
+                }
+                $.ajax({
+                    url:"/videos-upload",
+                    method:"POST",
+                    data:formData,
+                    success:function(response){
+                        formData._id = response._id;
+                        socket.emit("new_video",formData);
+                    }
+                });
+                return false;
+                }
+
+                var videoPath = "";
+                $("#form-upload").on("submit",function(e){
+                       e.preventDefault();
+                       $.ajax({
+                           url:"/do-upload-video",
+                           method:"POST",
+                           data:new FormData(this),
+                           contentType:false,
+                           cache:false,
+                           processData:false,
+                           success: function(response){
+                               alert(response) 
+                               videoPath = response;
+                           }
+                       })
+                   })
+        socket.on("new_video",(video)=>{
+            html= "";
+            html+=`<div class="vid-list" style="border-radius: 6px; background-color: rgb(79, 20, 138); padding-left: 3px;padding-top: 3px; padding-bottom: 15px;">
+                   <p style="color: white; margin-bottom: -12px;">${video.title}</p>
+                   <a href="watch/${video._id}">
+                     <video muted controls id="videoPlayer" poster="" class="thumbnail" style="margin-top: -8px; width:97%;" onclick="this.play();">
+                        <source class="dark-bg" src="${video.videoPath}"/>
+                     </video> 
+                   </a>
+                    
+                    <div class="flex-div" style="border-radius: 6px;background-color: rgb(79, 20, 138);padding-bottom:5px;margin-left: -3px; margin-top: -5px; padding-left: 3px;">
+                        <img src="/public/images/1.jpg" style="height:30px; width: 30px;"><span style="color: white;">${video.description}</span>
+                        <div class="vid-info"> 
+                            <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                <i class="fa fa-thumbs-up"></i>
+                                <span id="likes">
+                                   0
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                <i class="fa fa-thumbs-down"></i>
+                                <span id="dislikes">
+                                   0
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                <i class="fa fa-share"></i>
+                                <span id="share">
+                                   0
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                <i class="fa fa-download"></i>
+                                <span id="download">
+                                   0
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+            $(".list-container").prepend(html);
+        })
+                
+    </script>
+    <!--
+    <form enctype="multipart/form-data" class="uploads" id="form-upload">
+        <input type="file" accept="video/*" name="image">
+       <textarea name="Description" id="description" cols="30" rows="10"></textarea>
+        <input type="submit" name="submit" value="Add">
+    </form>
+    <br>
+    -->
+    
+
+    <div class="list-container" >
+        <%videos.forEach(function(video){%>
+              
+            <div class="vid-list">
+           
+                    <div class="main-vid">
+                        <video muted controls id="videoPlayer"  class="thumbnail" onclick="this.play();">
+                            <source class="dark-bg" src="<%=video.videoPath%>" />
+                        </video> 
+                    </div>
+                   
+                    <div class="flex-div" >
+
+                        <div class="profile-vid">
+                            <div class="left-profile-vid">
+                                <img class="my-pro" src="/public/images/member-4.png">
+                                <span style="color: white;">
+                                    Blessings Ngoma
+                                </span>
+                            </div>  
+                            <div class="right-time">
+                                <p >12:59</p>
+                            </div>               
+                        </div>
+
+                        <div class="diss">
+                            <p><%=video.description%></p>
+                        </div>
+                                         
+                        <div class="vid-info"> 
+
+                            <div class="others">
+                                <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                    <i class="fa fa-thumbs-down"></i>
+                                    <span id="dislikes">
+                                    0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                    <i class="fa fa-share"></i>
+                                    <span id="share">
+                                    0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                    <i class="fa fa-comment"></i>
+                                    <span id="download">
+                                    0
+                                    </span>
+                                </button>
+                            </div>
+
+                            <div class="views">
+                               <p>23k Views</p> 
+                            </div>
+
+
+                        </div>
+  
+
+                    </div>
+                    
+                    <div class="title">
+                        <button type="button">
+                            <a href="watch/<%=video._id%>"><b>Watch</b></a>
+                        </button>
+                        <button type="button">
+                            <a href=""><b>Download</b></a>
+                        </button>
+                    </div> 
+                </div> 
+        <%})%>
+                
+    </div>
+</div>
+</div>
+
+<script>
+    
+const form = document.querySelector('form'),
+fileInput = form.querySelector(".file-input"),
+progressArea = document.querySelector(".progress-area"),
+uploadedArea = document.querySelector(".uploaded-area");
+
+form.addEventListener("click",()=>{
+    fileInput.click();
+
+});
+
+fileInput.onchange= ({target})=>{
+    let file = target.files[0];
+    if(file){
+        let filename = file.name;
+        if(filename.length>=12){
+            let splitName = filename.split('.');
+            filename = splitName[0].substring(0,12) + "...."+ splitName[1];
+        }
+        uploadFile(filename);
+    }
+}
+
+function uploadFile(name){
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST","/upload-video");
+    xhr.upload.addEventListener("progress", ({loaded,total})=>{
+       let fileloaded = Math.floor((loaded/total)*100);
+       let filetotal = Math.floor(total/1000);
+       let filesize;
+       (filetotal<1024) ? filesize = filetotal + "KB" : filesize=(loaded/(1024*1024)).toFixed(2) + "MB";
+       let progressHTML =`<li class="row">
+                            <h3 class="fa fa-file"></h3>
+                            <div class="content">
+                                <div class="details">
+                                    <span class="name">${name} - Uploading.. </span>
+                                    <span class="percent">${fileloaded}</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width:${fileloaded}%"></div>
+                                </div>
+                            </div>
+                        </li>`;
+        uploadedArea.classList.add("onprogress");
+        progressArea.innerHTML = progressHTML;
+        if(loaded==total){
+            progressArea.innerHTML = "";
+            let uploadedHTML =  `<li class="row">
+                                    <div class="content">
+                                        <h3 class="fa fa-file"></h3>
+                                        <div class="details">
+                                            <span class="name">${name}</span>
+                                            <span class="size">${filesize}</span>
+                                        </div>
+                                    </div>
+                                    <h3 class="fa fa-check"></h3>
+                                </li>`;
+            uploadedArea.classList.remove("onprogress");
+            uploadedArea.insertAdjacentHTML("afterbegin",uploadedHTML);
+        }  
+    });
+
+    let formData = new FormData(form);
+    xhr.send(formData);
+}
+
+$(function(){
+    $('#Uploads-show').click(function(){
+        $('#uploads-modal').fadeIn().css("display","flex");
+        });
+
+    $('.close-modal').click(function(){
+        $('#uploads-modal').fadeOut();
+        })
+
+});
+
+</script>
+
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,308 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/chatui.css">
+    <link rel="stylesheet" href="/public/css/all.min.css">
+    <link rel="stylesheet" href="/public/css/board.css">
+    <script src="/public/js/peerjs.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <title>White-Board</title>
+</head>
+<body>
+
+    <div class="body-container">
+
+        <nav>
+            <div class="nav-left">
+                <h4 style="color: aliceblue; margin-left: 20px; margin-top: 10px;"><b>Easy <span style="color: dodgerblue;">School</span></b></h4>
+            </div>
+    
+            <div class="nav-right">
+
+                <script>
+                    function readNotification(self){
+                        var _id = self.getAttribute("data-id");
+                        var ajax = new XMLHttpRequest();
+                        ajax.open("POST","/read-notifictaion",true);
+                        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                        ajax.onreadystatechange = function(){
+                            if(this.readyState==4 && this.status==200){
+                                var response = JSON.parse(this.responseText);
+                                if(response.status=="error"){
+                                    alert(response.message);
+                                }
+                            }
+                        }
+                        ajax.send("notificationId="+_id);
+                        return true;
+                    }
+
+                    
+                    var ajax = new XMLHttpRequest();
+                    ajax.open("GET","/get_user",true);
+
+                    ajax.onreadystatechange = function(){
+                        if(this.readyState==4 && this.status==200){
+                            var response = JSON.parse(this.responseText);
+                            if(response.status=="success"){
+                                window.user = response.user;
+                                var html = "";
+                                window.user.notifications = window.user.notifications.reverse();
+                                for(var a=0;a<window.user.notifications.length;a++){
+                                    var notification = window.user.notifications[a];
+                                    if(!notification.is_read){
+                                        if(notification.type=="new_comment"){
+                                            html += '<a class="dropdown-item" onclick="return readNotification(this);" data-id="'+notification._id+'" href="#">New comment</a>';
+                                        }
+                                    }
+                                }
+                                document.getElementById("unread-notifications").innerHTML = html;
+                            }else{
+                            alert(response.message)
+                            }  
+                        }
+                    };
+
+                    ajax.send()
+                </script>
+
+                    <div class="dropdown-menu" id="unread-notifications" aria-labelledby="dropdownMenuButton"></div>
+                    </div>
+
+                    <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                        <img src="<%=profile.image%>">
+                    </div>
+           
+    
+            <!-------- Settings Menu -------->
+            <div class="settings-menu">
+                <div id="dark-btn">
+                    <span></span>
+                </div>
+                <div class="settings-menu-inner">
+                    <div class="user-profile">
+                        <img src="<%=profile.image%>">
+                        <div>
+                            <p><%=users.name%></p>
+                           <a href="/profile">Your Profile</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="settings-links">
+                        <img src="/public/images/setting.png" class="settings-icon">
+                        <a href="#">Settings </a>
+                    </div>
+                    <hr>
+                    <div class="settings-links">
+                        <img src="/public/images/help.png" class="settings-icon">
+                        <a href="#">Help</a>
+                    </div>
+                    <hr>
+                    <div class="settings-links">
+                        <img src="/public/images/logout.png" class="settings-icon">
+                        <a href="#">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-sect-board">
+
+ 
+     
+            <div class="board-section" >
+
+                <div class="main-btn-select">
+                    <button>
+                        <a href="">White Board</a>
+                    </button>
+    
+                    <button class="select-shift">
+                        <a href="">Go Live </a>
+                    </button>
+    
+                    <button class="select-shift">
+                        <a href="">Media</a>
+                    </button>
+                </div>
+
+                <div class="act-board">
+
+                    <div class="main-video">
+                        <video playsinline id="myvideo">
+
+                        </video >
+    
+                    </div>
+
+                </div>
+
+
+                <div class="activity-section">
+
+                    <div class="activities">
+                        
+                        <button type="button" class="btn btn-default" style="" onclick="doDisLike();">
+                            <i class="fa fa-phone"></i>
+                            <span id="download">
+                            
+                            </span>
+                        </button>
+
+                        <button type="button" class="btn btn-default" style="" onclick="doDisLike();">
+                            <i class="fa fa-phone-slash"></i>
+                            <span id="download">
+                           
+                            </span>
+                        </button>
+
+                        <button type="button" class="btn btn-default" style="" onclick="doDisLike();">
+                            <i class="fa fa-video"></i>
+                            <span id="download">
+                            
+                            </span>
+                        </button>
+
+                        <button type="button" class="btn btn-default" style="" onclick="doDisLike();">
+                            <i class="fa fa-microphone"></i>
+                            <span id="download">
+                            
+                            </span>
+                        </button>
+
+                    </div>
+
+                  
+                    
+                </div>
+
+            </div>
+
+            <div class="students" style="overflow-y: hidden;">
+
+                <div class="footer-class">
+                    <div class="class-info">
+                        <button>
+                            <a href="">Students</a>
+                        </button>
+                        <button style="margin-left: 2px;">
+                            <a href="">About Class</a>
+                        </button>
+                    </div>
+                    
+                </div>
+
+                <ul>
+
+                    <%all.forEach(function(student){%>
+                        <li>
+
+                            <div class="one-student">
+
+                                <div class="student-img">
+                                    <img src="/public/images/member-7.png">
+                                    <span></span>
+                                </div>
+    
+                                <div class="inner-detail">
+                                    <p style="font-weight: 600;"><%=student.name%></p>
+                                </div>
+
+                            </div>
+
+                            <div class="status-of-student">
+                                <button>
+                                    remove
+                                </button>
+                                <button style="margin-top: 1px;" >
+                                    message
+                                </button>
+                            </div> 
+
+                        </li>
+                    <%})%>
+
+                </ul>
+                <div class="footer-share">
+                    
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <script>
+            const roomId = "<%=room._id%>";
+            const userId = "<%=users._id%>"; 
+            const socket = io("/");
+            const videoGrid = document.getElementById("vid-grid");
+            const myPeer =new Peer(userId,{
+                host:'/',
+                port:'4000'
+            });
+            const peers = {};
+            const myvideo = document.getElementById('myvideo');
+            myvideo.muted = true;
+
+            navigator.mediaDevices.getUserMedia({
+                video:true,
+                audio:true
+            }).then(stream=>{
+                addvideostream(myvideo,stream);
+
+                myPeer.on('call',call=>{
+                    call.answer(stream)
+                    const video = document.createElement('video')
+                    call.on('stream',userVideostream=>{
+                        addvideostream(video,userVideostream)
+                    })
+                })
+
+                socket.on("user-connected", userId=>{
+                connectToNewUser(userId,stream)
+            })
+            })
+
+            socket.on("disconnection",userId=>{
+                if(peers[userId]) peers[userId].close();
+            })
+            myPeer.on("open",id=>{
+                socket.emit("join class", roomId,id);
+            })
+
+            function connectToNewUser(userId,stream){
+                const call = myPeer.call(userId,stream);
+                const video = document.createElement('video');
+                call.on('stream',userVideostream=>{
+                    addvideostream(video,userVideostream)
+                })
+                call.on('close',()=>{
+                    video.remove()
+                });
+
+                peers[userId]=call;
+            }
+
+            function addvideostream(video,stream){
+                video.srcObject = stream;
+                video.addEventListener("loadedmetadata",()=>{
+                    video.play()
+                });
+                videoGrid.append(video)
+            }
+        </script>
+
+        <!--
+        <div class="board">
+            <canvas id="canvas" style="height: 50%; width: 40%; border: 1px rgb(46, 46, 167) solid;"></canvas>
+        </div>
+        -->
+
+    </div>
+
+    <script src="public/js/board.js"></script>
+</body>
+</html>

@@ -1,0 +1,543 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/chatui.css">
+    <link rel="stylesheet" href="/public/css/room.css">
+    <link rel="stylesheet" href="/public/css/all.min.css">
+    <link rel="stylesheet" href="/public/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/emojionearea-4d89338/dist/emojionearea.min.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/emojionearea-4d89338/dist/emojionearea.min.js"></script>  
+    <title>Chats</title>
+</head>
+<body>
+    <%if(typeof isLogin !=="undefined" && isLogin){%>
+            <div class="chat-room">
+
+                           <div class="chat-container">
+
+                                   <div class="chat-header" id="header-id" style="cursor: pointer;">
+                                              
+                                           <div class="left">
+
+                                            <div class="arrow">
+                                                <div class="back-1">
+                                                    <a href="">
+                                                        <i class="fa fa-chevron-left"></i>
+                                                    </a> 
+                                                </div>
+                                               
+                                            </div>
+
+                                            
+                                            <div class="mid-profile-pic">
+                                                <a href="">
+                                                    <img src="/public/images/group.png">
+                                                </a>
+                                                
+                                            </div>
+
+                                            <div class="act-name">
+
+                                                <div class="name-act-status">
+                                                    <p style="cursor: pointer;"><%=chats.room%></p>
+                                                </div>
+
+                                                <div class="name-status-act">
+                                                    <div id="listnames">
+                                                        <ul >
+                                                            <li style=" list-style: none;float: left;">
+                                                                <a href="" style="text-decoration: none; ">
+                                                                    <img src="/public/images/member-4.png" style="height: 20px; width: 20px; border-radius: 50%;" >
+                                                                </a>
+                                                            </li>
+                                                            <li style=" list-style: none; float: left;">
+                                                                <a href="" style="text-decoration: none;">
+                                                                    <img src="/public/images/member-4.png" style="height: 20px; width: 20px; border-radius: 50%;" >
+                                                                </a>
+                                                            </li>
+                                                            <li style=" list-style: none; float: left;">
+                                                                <a href="" style="text-decoration: none;">
+                                                                    <img src="/public/images/member-2.png" style="height: 20px; width: 20px; border-radius: 50%;" >
+                                                                </a>
+                                                            </li>
+        
+                                                            <li style=" list-style: none; float: left;">
+                                                                <a href="" style="text-decoration: none;">
+                                                                    <img src="/public/images/member-3.png" style="height: 20px; width: 20px; border-radius: 50%;" >
+                                                                </a>
+                                                            </li>
+                                                            <li style=" list-style: none; float: left;">
+                                                                <a href="" style="text-decoration: none;">
+                                                                    <img src="/public/images/member-6.png" style="height: 20px; width: 20px; border-radius: 50%;" >
+                                                                </a>
+                                                            </li>
+                                                            <li style=" list-style: none; float: left;">
+                                                                <a href="" style="text-decoration: none;">
+                                                                    <img src="/public/images/member-7.png" style="height: 20px; width: 20px; border-radius: 50%;" >
+                                                                </a>
+                                                            </li>
+                                                            <li style=" list-style: none; float: left;">
+                                                                <a href="" style="text-decoration: none;">
+                                                                    <img src="/public/images/member-8.png" style="height: 20px; width: 20px; border-radius: 50%;" >
+                                                                </a>
+                                                            </li>
+                                                            <li style=" list-style: none; float: left;">
+                                                                <a href="" style="text-decoration: none;">
+                                                                    <img src="/public/images/member-2.png" style="height: 20px; width: 20px; border-radius: 50%;" >
+                                                                </a>
+                                                            </li>
+        
+                                                            <li style=" list-style: none; float: left;">
+                                                                <a href="" style="text-decoration: none;">
+                                                                    <img src="/public/images/member-3.png" style="height: 20px; width: 20px; border-radius: 50%;" >
+                                                                </a>
+                                                            </li>
+                                                            <li style=" list-style: none; float: left;">
+                                                                <a href="" style="text-decoration: none;">
+                                                                    <img src="/public/images/member-6.png" style="height: 20px; width: 20px; border-radius: 50%;" >
+                                                                </a>
+                                                            </li>
+        
+                                                        </ul>
+        
+                                                    </div>
+
+                                                </div>   
+                                            </div>
+                                     </div>
+                                     <div class="right">            
+                                            <div class="right-btn-icons">
+                                                <button id="video-id">
+                                                    <i class="fa fa-video-camera"></i>
+                                                </button>          
+                                            </div> 
+
+                                            <div class="right-btn-icons">
+                                                <button id="menu-id">
+                                                    <i class="fa fa-ellipsis-v"></i> 
+                                                </button>
+                                            </div>          
+                                                     
+                                        </div>
+                                        
+                                   </div>
+                          
+                                   <div class="chat-box" id="<%chats._id%>">  
+                    
+                                <%chats.messages.forEach(function(msg){%>
+                                    <%if(msg.user.name==users.name){%>
+                                        <div class="chat-r">
+                                            <div class="sp">
+
+                                            </div>
+
+                                            <div class="mess mess-r">
+                                                <img src="<%=profile.image%>" class="left-pp">
+                                                <span style="padding:4px;" style="font-size: 12px;"><%=msg.user.name%></span>
+                                                <p style="font-size: 12px;"><%=msg.message%></p>
+                                                
+                                                <div>
+                                                    <%if(msg.file){%>
+                                                        <%if(msg.file.split('.').pop()=='mp4'){%>
+                                                            <video muted controls src="<%=msg.file%>" style="hieght:400px;width:300px;"></video>
+                                                        <%}else{%>
+                                                            <img src="<%=msg.file%>" style="hieght:400px;width:300px;">
+                                                    <%}%>
+                                                    <%}%>
+                                                </div>
+
+                                                <div class="check">
+                                                    <span>4:00 PM</span>
+                                                </div> 
+
+                                            </div>
+                                        </div>
+                                        <%}else{%>
+
+                                        <div class="chat-l">
+                                            <div class="mess mess-r">
+                                                <img src="<%=profile.image%>" class="left-pp">
+                                                <span style="padding:4px;" style="font-size: 12px;"><%=msg.user.name%></span>
+                                                <p style="font-size: 12px;"><%=msg.message%></p>
+                                                <div>
+                                                <%if(msg.file){%>
+                                                    <%if(msg.file.split('.').pop()=='mp4'){%>
+                                                    <video muted controls src="<%=msg.file%>" style="hieght:400px;width:300px;"></video>
+                                                    <%}else{%>
+                                                        <img src="<%=msg.file%>" style="hieght:400px;width:300px;">
+                                                <%}%>
+                                                <%}%>
+                                                </div>
+                                                    <div class="check">
+                                                        <span>4:00 PM</span>
+                                                    </div>
+                                            </div>
+                                        <div class="sp"></div>
+                                        </div>
+                                        <%}%>
+                                    <%})%>
+
+                                    </div>
+                                   
+                                    <div class="main-modal" style="width:100%;display:none;">
+                                        <div class="modal-1" style="background-color: rgb(92, 68, 33);width: 75%;
+                                        position: absolute;
+                                        bottom: 45px;
+                                        left: 12.5%;">
+                                            <div class class="top-form">
+                                            <form enctype="multipart/form-data" style="padding:10px;" id="form-upload" style="display: inline;">
+                                                  
+                                                <input type="file" style="width: 85%; padding: 5px; margin-bottom: 5px; float: left;" class="form-control" accept="video/*,image/*" name="image">
+                                                <input type="submit" name="submit" class="submit-file" value="Save" style="float: left; margin-left: 2px; height: 35px; border: none;outline: none;border-radius: 5px; background-color: teal; margin: auto; padding-left: 5px;padding-right: 5px;">
+                                                <input name="submit" class="Cancel-file" value="Cancel" style="cursor:pointer;float: left; height: 35px;width: 60px; border: none;outline: none;border-radius: 5px; background-color: teal; margin: auto; padding-left: 5px;padding-right: 5px;">
+                                            </form>
+                                        </div> 
+                                        </div>
+                                            <form style="width: 100%;" class="chat-footer" onsubmit="return CaptionMessage(this);">
+                                                <input type="hidden" name="user_name" value="<%=users.name%>">
+                                                <input type="hidden" name="image_Path" value="<%=profile.image%>">
+                                                <input type="hidden" name="chat_id" value="<%=chats._id%>">
+                                                <textarea id="caption" name="caption" style="background-color: rgb(92, 68, 33);padding-top: 5px;padding-left: 10px;" placeholder="caption..." style="overflow-y: hidden;"></textarea>
+                                                <button type="submit" style="margin-left: 20px; height: 35px; border: none;outline: none;border-radius: 5px; background-color: teal; margin: auto; padding-left: 5px;padding-right: 5px;" >Send</button>
+                                            </form>
+                                    </div> 
+
+                                         <!--<img id="imag" style="width:1px; height: 1px;">-->
+                                    <div class="chat-footer">
+                                        <form id="message-form" onsubmit="return postMessage(this);">
+                                            <input type="hidden" name="username" value="<%=users.name%>">
+                                            <input type="hidden" name="imagePath" value="<%=profile.image%>">
+                                            <input type="hidden" name="chatid" value="<%=chats._id%>">
+                                            
+                                            <div class="form-text">
+                                                <textarea id="message" name="message"></textarea>
+                                            </div>
+                                            
+                                            <div class="form-btns-right">
+
+                                                <button type="submit" id="button">
+                                                    <i class="fa fa-paper-plane"></i>
+                                                </button>
+
+                                                <div class="action" onclick="actionToggle();">
+                                                    
+                                                    <span>+</span>
+                                                 
+                                                    <ul>
+                                                        <li><img src="/public/images/upload.png" id="file"></li>
+                                                        <li><img src="/public/images/call.png" ></li>
+                                                        <li><img src="/public/images/disconnect.png"></li>
+                                                        <li><img src="/public/images/voice.png"></li>
+                                                        <li><img src="/public/images/video.png"></li>
+                                                    </ul>
+                                                  
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                          
+                                  
+                            </div>
+                                             
+              </div>
+        
+
+    
+    <%}else{%>
+        <%- include("index1")%>
+    <%}%>
+
+<script>
+
+let title =document.getElementById('chat-title');
+            var listchat = document.querySelectorAll('.user-name');
+            var chatB = document.querySelector('.chat-container');
+                var nav = document.querySelector('.navigate');
+            let flag=0,
+            feedback = document.getElementById("listnames");
+            let message = document.getElementById('message'); 
+         
+            //const socket = io.connect();
+            var socket = io();
+            var username = '<%=users.name%>';
+            var my_image = '<%=profile.image%>';
+            function getExt(filepath){
+                return filepath.split('.').pop();
+            }
+
+            function filehandle(file){
+                html="";
+                if(file){
+                        if(getExt(file)=='mp4'){
+                        html+=`<video muted controls src="${file}" style="hieght:400px;width:300px;"></video>`;
+                       
+                        }else{
+                            html+= `<img src="${file}" style="hieght:400px;width:300px;">`;
+                        }
+                    }
+                return html;
+                
+            }
+           
+
+            $(document).ready(()=>{
+                $("#file").click(()=>{
+                    $(".main-modal").css("display","block");
+                    $("#message-form").css("display","none")
+                })
+
+                    $("#header-id").click(function(id){
+                        $(".chat-box").css("display","block");
+                        $(".chat-footer").css("display","block");
+                    })
+
+                    $("#title-id").click(function(){
+                        $(".chat-box").css("display","block");
+                        $(".chat-footer").css("display","block");
+                    })  
+                    $(".Cancel-file").click(()=>{
+                        $(".main-modal").css("display","none");
+                    }) 
+                    
+                    $(`#message`).emojioneArea();
+                    $('.chat-container').css("display","block");  
+                    
+                    socket.emit('userJoin',"<%-chats._id%>");
+                })
+           
+           
+            function postMessage(form){
+                var formData ={};
+                    formData ={
+                        chatid:form.chatid.value,
+                        image:form.imagePath.value,
+                        username:form.username.value,
+                        message:form.message.value,
+                        };
+                    
+                $.ajax({
+                url:"/do-message",
+                method:"POST",
+                data:formData,
+                success:function(response){
+                    formData._id =response._id;
+                    let msg = document.getElementById(`message`);
+                    socket.emit("chat_message",formData);  
+                    msg.value="";
+                    }
+                });
+                   return false;
+               }
+
+               function CaptionMessage(form){
+                var formData ={};
+                    formData ={
+                        chatid:form.chat_id.value,
+                        image:form.image_Path.value,
+                        username:form.user_name.value,
+                        message:form.caption.value,
+                        filesPath:imgPath
+                        };
+              
+                    
+                $.ajax({
+                url:"/do-caption",
+                method:"POST",
+                data:formData,
+                success:function(response){
+                    formData._id =response._id;
+                    let msg = document.getElementById(`caption`);
+                    socket.emit("chat_message",formData);  
+                    msg.value="";
+                    }
+                });
+                   return false;
+               }
+
+               var imgPath = "";
+                   $("#form-upload").on("submit",function(e){
+                       e.preventDefault();
+                       $.ajax({
+                           url:"/do-upload-file",
+                           method:"POST",
+                           data:new FormData(this),
+                           contentType:false,
+                           cache:false,
+                           processData:false,
+                           success: function(response){
+                               imgPath = response;
+                           }
+                       });
+                   });
+                
+            
+            function actionToggle(){
+                var action = document.querySelector('.action');
+                action.classList.toggle('activ')
+            }
+    
+            function arrow(){
+                nav.style.width = "80%";
+                chatB.style.display  = "none";
+            }
+            
+            message.addEventListener("keypress",()=>{
+                socket.emit('typing',username);
+                        })
+
+            message.addEventListener("touchstart",()=>{
+                socket.emit('typing',username);
+                            })
+
+            document.getElementById("button").addEventListener("click",()=>{
+                var empty = ""
+                socket.emit('clicked',empty);
+            })
+
+            message.addEventListener("click",()=>{
+                socket.emit('typing',username);
+            })
+    
+            socket.on('clicked',function(members){
+                feedback.innerHTML = members;
+                });
+
+            socket.on('typing',function(data){
+                feedback.innerHTML = '<p><em>'+data+' is typing..</em></p>';
+            })
+
+            socket.on('new_msg',(result)=>{
+                html="";
+               
+                if(username==result.username){
+                    if(result.filesPath){
+                        if(getExt(result.filesPath)=='mp4'){
+                            html+=`<video muted controls src="${result.filesPath}" style="hieght:400px;width:300px;"></video>`;
+                        }else{
+                            html+= `<img src="${result.filesPath}" style="hieght:400px;width:300px;">`;
+                            } 
+                        }
+                    $(`.chat-box`).append(`
+                    <div class="chat-r">
+                        <div class="sp"></div>
+                        <div class="mess mess-r">
+                            <img src="${result.image}" class="left-pp"><span style="padding:4px;">${result.username}</span>
+                            <p style="font-size: 12px;">${result.message}</p>
+                            <div>
+                                ${html}
+                            </div>
+                                <div class="check">
+                                    <span style="color:white;">4:00</span>   
+                                </div>       
+                            </div>
+                        </div>`);
+                       
+                }else{
+                    if(result.filesPath){
+                        if(getExt(result.filesPath)=='mp4'){
+                        html+=`<video muted controls src="${result.filesPath}" style="hieght:400px;width:300px;"></video>`;
+                       
+                        }else{
+                            html+= `<img src="${result.filesPath}" style="hieght:400px;width:300px;">`;
+                        }
+                        }
+                    $(`.chat-box`).append(`
+                        <div class="chat-l">
+                            <div class="mess mess-r">
+                                <img src="${result.image}" class="left-pp"><span style="padding:4px;">${result.username}</span>
+                               
+                                <p style="font-size: 12px;">${result.message}</p>
+                                    <div>
+                                ${html}
+                                    </div>
+                                <div class="check">
+                                    <span style="color:white;">4:00</span>   
+                                </div> 
+                                    </div>
+                                    <div class="sp"></div>
+                                </div>`);
+                        
+                    }
+
+                });
+
+ 
+            // Catching the image to the client
+           /* socket.on('base64codeimage',(base64)=>{
+                document.getElementById('imag').src = base64;
+        
+            // Previewing the image with socket.io
+                document.getElementById('file').addEventListener('change',function(){
+                const reader = new FileReader();
+                reader.onload = function(){
+                        const base64 = this.result.replace(/.*base64,/,'');
+                        let base64string = "data:image/jpeg;charset-utf-8;base64,"+base64;
+                        socket.emit('base64codeimage',base64string);
+                    };
+                reader.readAsDataURL(this.files[0]);
+                },false);/*
+                if(username){
+                $("#chats").append(`
+                <div class="chat-r">
+                    <div class="sp"></div>
+                    <div class="mess mess-r">
+                        <img src="/public/images/profile-pic.png" class="left-pp"><span style="padding:4px;">${username}</span>
+                            <img id="imag" src="${base64}" style="width:100%; height: 200px;">   
+                        </div>
+                    </div>`);
+                }else{
+                    $("#chats").append(`
+                    <div class="chat-l">
+                        <div class="mess mess-r">
+                            <img src="/public/images/profile-pic.png" class="left-pp"><span style="padding:4px;">${username}</span>
+                                <img id="imag" src="${base64}" style="width:100%; height: 200px;">  
+                                </div>
+                                <div class="sp"></div>
+                        </div>`);
+                }
+        
+            });*/
+    
+            // Clicking the send message button 
+
+
+            //getting the old maesages
+            /*
+            socket.on('oldmessages',(results)=>{
+            if(username==results.user){
+                $("#cha").append(`
+                <div class="chat-r">
+                    <div class="sp"></div>
+                    <div class="mess mess-r">
+                        <img src="/public/images/profile-pic.png" class="left-pp"><span style="padding:4px;">${results.user}</span>
+                            <p>${results.message}<img src="/public/images/feeling.png" class="emoji"></p>
+                                <div class="check">
+                                    <span>4:00 PM</span>
+                                    <img src="/public/images/done.png" >
+                                </div>      
+                        </div>
+                    </div>`);
+                }else{
+                $("#cha").append(`
+                    <div class="chat-l">
+                        <div class="mess mess-r">
+                            <img src="/public/images/profile-pic.png" class="left-pp"><span style="padding:4px;">${results.user}</span>
+                                <p>${results.message}<img src="/public/images/feeling.png" class="emoji"></p>
+                                    <div class="check">
+                                        <span>4:00 PM</span>
+                                    </div>
+                                </div>
+                            <div class="sp"></div>
+                        </div>`);
+            }
+            });*/
+    
+
+    
+    </script>
+</body>
+</html>

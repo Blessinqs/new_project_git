@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="/public/vendor/bootstrap/css/bootstrap.min.css">
+    <script defer src="/public/js/socket.io.js"></script> 
+</head>
+<body >
+
+    <div class="container">
+        <h1 class="text-center">
+            Group Chating Here
+        </h1>
+        <div class="form-group">
+            <label for="image">Choose Image</label>
+            <input type="file" accept="image/*" id="file" class="form-control">
+        </div>
+        <img alt="" id="imag">
+        <div class="form-group">
+            <textarea id="chats" cols="30" rows="10" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="text" id="message" placeholder="Enter your text.." required class="form-control">
+        </div>
+        <div class="form-group">
+            <button id="button" class="btn btn-block btn-danger"> Send Message</button>
+        </div>
+    </div>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    const socket = io.connect();
+    const username = window.prompt("Enter Username");
+
+    // emiting the user name to the server
+    socket.emit("username",username);
+
+    //previewing the image with socket.io
+    document.getElementById('file').addEventListener('change',function(){
+        const reader = new FileReader();
+        reader.onload = function(){
+            const base64 = this.result.replace(/.*base64,/,'');
+            //console.log(base64);
+            let base64string = "data:image/jpeg;charset-utf-8;base64,"+base64
+            socket.emit('base64codeimage',base64string);
+        };
+        reader.readAsDataURL(this.files[0]);
+    },false);
+
+
+    // catching the image to the client
+
+    socket.on('base64codeimage',(base64)=>{
+        document.getElementById('imag').src = base64
+    })
+
+    //clicking the send message button 
+    document.getElementById('button').addEventListener('click',()=>{
+        let message = document.getElementById('message').value;
+        socket.emit('message',message);
+
+        document.getElementById('message').value = "";
+    })
+
+    socket.on('message',(message)=>{
+        $("#chats").append(message + "\n");
+    })
+
+    socket.on('oldmessages',(data)=>{
+        $("#chats").append(data + "\n");
+    })
+
+    socket.on('oldimage',(data)=>{
+        document.getElementById('imag').src = data;
+    })
+
+    </script>
+</body>
+</html>

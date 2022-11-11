@@ -1,0 +1,981 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="public/css/all.min.css">
+    <link rel="stylesheet" href="public/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/public/css/chatui.css">
+    <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <!--<script src="/public/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script>tinymce.init({selector:'textarea'})</script>-->
+    <title>School Media</title>
+</head>
+
+<body>
+    <%if(typeof isLogin !=="undefined" && isLogin){%>
+        <div class="body-container">
+            <nav>
+
+                <div class="nav-left">
+
+                    <div class="logo-student">
+                        <div><i class="fa fa-graduation-cap fa-2x"></i></div>   
+                    </div>
+
+                    <div class="web-name">
+                        <h3 style="color: aliceblue;"><b>Easy <span style="color: dodgerblue;">Schoolz</span></b></h3>
+                    </div>
+                            
+                </div>
+        
+                <div class="nav-right">
+    
+                    <script>
+                        function readNotification(self){
+                            var _id = self.getAttribute("data-id");
+                            var ajax = new XMLHttpRequest();
+                            ajax.open("POST","/read-notifictaion",true);
+                            ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                            ajax.onreadystatechange = function(){
+                                if(this.readyState==4 && this.status==200){
+                                    var response = JSON.parse(this.responseText);
+                                    if(response.status=="error"){
+                                        alert(response.message);
+                                    }
+                                }
+                            }
+                            ajax.send("notificationId="+_id);
+                            return true;
+                        }
+    
+                        
+                        var ajax = new XMLHttpRequest();
+                        ajax.open("GET","/get_user",true);
+    
+                        ajax.onreadystatechange = function(){
+                            if(this.readyState==4 && this.status==200){
+                                var response = JSON.parse(this.responseText);
+                                if(response.status=="success"){
+                                    window.user = response.user;
+                                    var html = "";
+                                    window.user.notifications = window.user.notifications.reverse();
+                                    for(var a=0;a<window.user.notifications.length;a++){
+                                        var notification = window.user.notifications[a];
+                                        if(!notification.is_read){
+                                            if(notification.type=="new_comment"){
+                                                html += '<a class="dropdown-item" onclick="return readNotification(this);" data-id="'+notification._id+'" href="#">New comment</a>';
+                                            }
+                                        }
+                                    }
+                                    document.getElementById("unread-notifications").innerHTML = html;
+                                }else{
+                                alert(response.message)
+                                }  
+                            }
+                        };
+    
+                        ajax.send()
+                    </script>
+    
+                    <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                       <%if(profile.image){%>
+                        <img src="<%=profile.image%>">
+                        <%}else{%>
+                            <img src="<%=profile%>">
+                        <%}%>
+                    </div>
+                </div>
+        
+                <!-------- Settings Menu -------->
+                <div class="settings-menu">
+                    <div id="dark-btn">
+                        <span></span>
+                    </div>
+                    <div class="settings-menu-inner">
+                        <div class="user-profile">
+                            <%if(profile.image){%>
+                                <img src="<%=profile.image%>">
+                                <%}else{%>
+                                    <img src="<%=profile%>">
+                                <%}%>
+                            <div>
+                                <p><%=users.name%></p>
+                               <a href="/profile">Your Profile</a>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="settings-links">
+                            <img src="/public/images/help.png" class="settings-icon">
+                            <a href="#">Help</a>
+                        </div>
+                        <hr>
+                        <div class="settings-links">
+                            <img src="/public/images/logout.png" class="settings-icon">
+                            <a href="#">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+     
+            <div class="left-sidebar">
+                    <div class="imp-links">
+                        <a href="/library"><i class="fa fa-book"></i><span class="list-menu">Library</span> </a>
+                        <a href="/madis"><i class="fa fa-users"></i><span class="list-menu">Discussions</span> </a>
+                        <a href="/classes"><i class="fa fa-table"></i><span class="list-menu">Classes</span></a>
+                        <a href="/users"><i class="fa fa-user-friends"></i><span class="list-menu"> Students</span></a>
+                        <a href="/tutorial"><i class="fa fa-video"></i><span class="list-menu">Tutorials</span> </a>
+                        <a href="/groups"><i class="fa fa-comments"></i><span class="list-menu">Chats</span></a>
+                        <a href="/profile"><i class="fa fa-user"></i><span class="list-menu">Profile</span></a>
+                        <a href="/documents"><i class="fa fa-user"></i><span class="list-menu">Documents</span></a>
+                       
+                    </div>
+            </div>
+            <div class="main-content">  
+
+                <div class="story-gallery">
+                    <div class="story">
+                        
+                        <div class="status-name">
+                            <div>
+                                <p>Photos(0)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="story">
+                        
+                        <div class="status-name">
+                            <div>
+                                <p>Videos(0)</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="story">
+
+                        <div class="status-name">
+                            <div>
+                                <p>Written(0)</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                   
+                </div>
+    
+                <div class="activity-posting" >
+                    <button style="cursor: pointer;">Posts</button>
+                    <button id="status" class="left-shift" style="cursor: pointer;">Add Status</button>
+                    <button class="status-btn left-shift" style="cursor: pointer;">View Status</button>
+                    <button class="post-btn left-shift" id="show" style="cursor: pointer;">Add Post</button>
+                </div>
+
+                <div id="user-status-main" >
+
+                    <div class="user-status">               
+                        <div class="status-live">
+                            <div class="add-button">
+
+                                <div class="head-status">
+                                    <p>Friends Statuses</p>
+                                </div>
+
+                                <div class="side-bar-status">
+                                    <button id="close-status">Close</button>
+                                </div>
+                                
+                            </div>
+                            <div class="main-status">
+
+                                <div class="users-story">
+
+                                    <div class="stry">
+                                        <div class="story-profile">
+                                            <img src="/public/images/member-9.png">
+                                        </div>
+
+                                        <div class="user-status-name">
+
+                                            <div class="name-of">
+                                                <p>Joseph 
+                                                </p>
+                                            </div>
+
+                                            <div class="profile-btn">
+                                                <button type="button">
+                                                    <a href=""> View Profile</a>   
+                                                </button>
+                                            </div>
+                                            
+                                        </div>
+
+                                    </div>
+    
+                                    <div class="content-status">
+                                        <div class="videos-status">
+                                            <div class="view-status-friend">
+                                                <p>Videos(0)</p>
+                                            </div>
+    
+                                        </div>
+                                        <div class="image-status">
+                                            <div class="view-status-friend">
+                                                <p>Photos(0)</p>
+                                            </div>
+                                        </div>
+                                        <div class="written-status">
+                                            <div class="view-status-friend">
+                                                <p>Written(0)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+    
+                                <div class="users-story">
+
+                                    <div class="stry">
+                                        <div class="story-profile">
+                                            <img src="/public/images/member-9.png">
+                                        </div>
+                                        <div class="user-status-name">
+                                              <div class="name-of">
+                                                <p>Joseph 
+                                                </p>
+                                            </div>
+
+                                            <div class="profile-btn">
+                                                <button type="button">
+                                                    <a href=""> View Profile</a>   
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+    
+                                    <div class="content-status">
+                                        <div class="videos-status">
+                                            <div class="view-status-friend">
+                                                <p>Videos(0)</p>
+                                            </div>
+    
+                                        </div>
+                                        <div class="image-status">
+                                            <div class="view-status-friend">
+                                                <p>Photos(0)</p>
+                                            </div>
+                                        </div>
+                                        <div class="written-status">
+                                            <div class="view-status-friend">
+                                                <p>Written(0)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="users-story">
+                                    <div class="stry">
+                                        <div class="story-profile">
+                                            <img src="/public/images/member-9.png">
+                                        </div>
+                                    
+                                        <div class="user-status-name">
+                                            <div class="name-of">
+                                                <p>Joseph 
+                                                </p>
+                                            </div>
+
+                                            <div class="profile-btn">
+                                                <button type="button">
+                                                    <a href=""> View Profile</a>   
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="content-status">
+                                        <div class="videos-status">
+                                            <div class="view-status-friend">
+                                                <p>Videos(0)</p>
+                                            </div>
+    
+                                        </div>
+                                        <div class="image-status">
+                                            <div class="view-status-friend">
+                                                <p>Photos(0)</p>
+                                            </div>
+                                        </div>
+                                        <div class="written-status">
+                                            <div class="view-status-friend">
+                                                <p>Written(0)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="users-story">
+                                    <div class="stry">
+                                        <div class="story-profile">
+                                            <img src="/public/images/member-9.png">
+                                        </div>
+                                        
+                                        <div class="user-status-name">
+                                            <div class="name-of">
+                                                <p>Joseph 
+                                                </p>
+                                            </div>
+
+                                            <div class="profile-btn">
+                                                <button type="button">
+                                                    <a href=""> View Profile</a>   
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="content-status">
+                                        <div class="videos-status">
+                                            <div class="view-status-friend">
+                                                <p>Videos(0)</p>
+                                            </div>
+    
+                                        </div>
+                                        <div class="image-status">
+                                            <div class="view-status-friend">
+                                                <p>Photos(0)</p>
+                                            </div>
+                                        </div>
+                                        <div class="written-status">
+                                            <div class="view-status-friend">
+                                                <p>Written(0)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="users-story">
+                                    <div class="stry">
+
+                                        <div class="story-profile">
+                                            <img src="/public/images/member-9.png">
+                                        </div>
+                                        
+                                        <div class="user-status-name">
+                                            <div class="name-of">
+                                                <p>Joseph 
+                                                </p>
+                                            </div>
+
+                                            <div class="profile-btn">
+                                                <button type="button">
+                                                    <a href=""> View Profile</a>   
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="content-status">
+                                        <div class="videos-status">
+                                            <div class="view-status-friend">
+                                                <p>Videos(0)</p>
+                                            </div>
+    
+                                        </div>
+                                        <div class="image-status">
+                                            <div class="view-status-friend">
+                                                <p>Photos(0)</p>
+                                            </div>
+                                        </div>
+                                        <div class="written-status">
+                                            <div class="view-status-friend">
+                                                <p>Written(0)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="users-story">
+                                    <div class="stry">
+                                        <div class="story-profile">
+                                            <img src="/public/images/member-9.png">
+                                        </div>
+                                        <div class="user-status-name">
+                                            <div class="name-of">
+                                                <p>Joseph 
+                                                </p>
+                                            </div>
+
+                                            <div class="profile-btn">
+                                                <button type="button">
+                                                    <a href=""> View Profile</a>   
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="content-status">
+
+                                        <div class="videos-status">
+                                            <div class="view-status-friend">
+                                                <p>Videos(0)</p>
+                                            </div>
+    
+                                        </div>
+                                        <div class="image-status">
+                                            <div class="view-status-friend">
+                                                <p>Photos(0)</p>
+                                            </div>
+                                        </div>
+                                        <div class="written-status">
+                                            <div class="view-status-friend">
+                                                <p>Written(0)</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+    
+                                <div class="users-story">
+                                    <div class="stry">
+                                        <div class="story-profile">
+                                            <img src="/public/images/member-9.png">
+                                        </div>
+                                        <div class="user-status-name">
+                                            <div class="name-of">
+                                                <p>Joseph 
+                                                </p>
+                                            </div>
+
+                                            <div class="profile-btn">
+                                                <button type="button">
+                                                    <a href=""> View Profile</a>   
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="content-status">
+                                        <div class="videos-status">
+    
+                                        </div>
+                                        <div class="image-status">
+    
+                                        </div>
+                                        <div class="written-status">
+    
+                                        </div>
+                                    </div>
+                                </div>                            
+                            </div>
+                            
+                        </div>
+    
+                    </div>
+
+                </div>
+               
+                <%   
+                var value_img="";
+                    if(profile.image){
+                        value_img = profile.image;
+                    }else{
+                        value_img = profile;
+                    }  
+                %>
+               
+
+                <div id="uploads-modal" >
+                    <div class="modal" style="height: 250px;width: 300px; display: block;">
+                        <div class="top-form">
+                            <div class="close-modal">
+                                &#10006;
+                            </div>
+                        </div>
+                            <form onsubmit="return doPost(this);" enctype="multipart/form-data" style="padding:10px;padding-top:-5px;display: block; justify-content: center;align-items: center;">
+                                    <button type="button" id="form-id" style="height: 35px; border: none;outline: none; border-radius: 5px; background-color: teal; padding-left: 5px;padding-right: 5px;" >Attach file</button>
+                                    <br>
+                                    <div>
+                                        <input type="hidden" name="img" value="<%=value_img%>">
+                                       <!--<p>year <%=value_img%></p>--> 
+                                        <label >Description</label>
+                                        <br>
+                                        <input type="text" class="form-control" placeholder="Add description.." style="height: 35px; width: 100%;" name="description"> 
+                                    </div>
+                                    <br>
+                                    <input type="submit"  name="submit" id="realpost" value="Post" style="width:100%; margin-top: 5px; margin-left: 20%; height: 35px; border: none;outline: none;border-radius: 5px; background-color: teal; margin: auto; padding-left: 5px;padding-right: 5px;">
+                            </form>
+                    </div>
+                </div>
+            
+                <div class="modal-2" style="height: 200px;width: 300px; display: none;position: fixed;">
+                    <div class="top-form">
+                        <div class="close-modal-2" style="cursor: pointer;">
+                            &#10006;
+                        </div>
+                    </div>
+                        <form enctype="multipart/form-data" style="padding:10px ;" id="form-upload">
+                                <div style="clear: both;">
+                                    <h5>File Upload</h5>
+                                    <br>
+                                    <input type="file" class="form-control" accept="video/*,image/*" name="image">
+                                </div>
+                                    <br>
+                                <input type="submit" name="submit" class="submit-file" value="upload" style="margin-left: 20px; height: 35px; border: none;outline: none;border-radius: 5px; background-color: teal; margin: auto; padding-left: 5px;padding-right: 5px;">
+                        </form>
+                </div>
+
+
+                <div id="posts">
+                    <%files.forEach(function(file){%>
+                        <div class="post-container">
+                            <div class="post-row">
+
+                                <div class="user-profile">
+                                    <img src="<%=file.user.image%>">
+
+                                    <div>
+                                        <p><%=file.user.name%></p>
+                                        <p><%=file.user.email%></p>
+                                        <br>
+                                        
+                                        <span>
+                                            <%=file.createdAt.year%> |
+                                            <%=file.createdAt.hrs%>                                     
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="more-menu">
+                                    <button type="button">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                               
+                            </div>
+
+                            <div class="text">
+                                <p class="post-text"><%=file.description%> | 
+                                   <i> 
+                                Lorem ipsum dolor sit amet consectetur, 
+                                adipisicing elit. Quam culpa natus adipisci molestiae itaque. Laboriosam esse impedit optio dolor enim ipsa deleniti libero quibusdam totam. 
+                                Quo alias corporis voluptatem maiores.
+                                    </i>
+                                    <a href="#">more here</a> 
+                                </p>
+                            </div>
+                 
+                            <div class="main-file">
+                                <%if(file.imagePath){%>
+                                        <%if(file.imagePath.split('.').pop()=='mp4'){%>
+                                            <video muted controls id="videoPlayer" class="thumbnail" onclick="this.play();">
+                                                <source class="dark-bg" src="<%=file.imagePath%>"/>
+                                            </video>    
+                                        <%}else{%>
+                                            <img src="<%=file.imagePath%>" class="post-img">
+                                            <%}%>
+                                <%}else{%>
+
+                                    <%}%>
+                            </div>
+
+                            <input type="hidden" id="<%=file._id%>" name="postid" value="<%=file._id%>">
+
+                            
+                            <div class="post-row-1">
+                                <div class="activity-icons"> 
+
+                                    <button type="button" class="btn btn-default" onclick="doLike();">
+                                        <i class="fa fa-thumbs-up"></i>
+                                        <span id="likes">
+                                            <%=file.likes.length%>
+                                        </span>
+                                    </button>
+                                    
+                                    <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                        <i class="fa fa-thumbs-down"></i>
+                                        <span id="dislikes">
+                                            <%=file.dislikes.length%>
+                                        </span>
+                                    </button>
+
+                                    <!--<a href="/download/<%=file._id%>" style="text-decoration: none;"><i class="fa fa-download"></i></a>
+                                        <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                            fa-comment-alt/all-comments/
+                                            <span id="download">
+                                                <%=file.dislikes.length%>
+                                            </span>
+                                        </button>
+                                        -->
+                                    <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                        <i class="fa fa-share"></i>
+                                        <span id="share">
+                                            0
+                                        </span>
+                                    </button>
+                                    
+                                    <a href="/all-comments/<%=file._id%>" style="text-decoration: none; color:rgb(216, 213, 213);">
+                                        <button type="button" class="btn btn-default">
+                                            <i class="fa fa-comment-alt"></i>
+                                            <span id="comment">
+                                                
+                                                    <%=file.comments.length%>
+                                                
+                                            </span>
+                                        </button>  
+                                    </a>
+                                    
+                                    </div> 
+
+                                    <script>
+                                        function doLike(){
+                                                var ajax = new XMLHttpRequest();
+                                                ajax.open("POST","/do-like",true);
+                                                ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                    
+                                                ajax.onreadystatechange = function (){
+                                                    if(this.readyState==4 && this.status==200){
+                                                        var response = JSON.parse(this.responseText);
+                                                        if(response.status == "success"){
+                                                            // update likes
+                                                            var likes = document.getElementById("likes").innerHTML;
+                                                            likes = parseInt(likes);
+                                                            likes++;
+                                                            document.getElementById("likes").innerHTML = likes;
+                                                        }else{
+                                                            alert(response.message);
+                                                        }
+                                                    }
+                                                }
+                                                var postid = document.getElementById("<%=file._id%>").value;
+                                                ajax.send("postid="+postid);
+                                            }
+            
+                                        function doDisLike(){
+                                                var ajax = new XMLHttpRequest();
+                                                ajax.open("POST","/do-dislike",true);
+                                                ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                    
+                                                ajax.onreadystatechange = function (){
+                                                    if(this.readyState==4 && this.status==200){
+                                                        var response = JSON.parse(this.responseText);
+                                                        if(response.status == "success"){
+                                                            // update likes
+                                                            var dislikes = document.getElementById("dislikes").innerHTML;
+                                                            dislikes = parseInt(dislikes);
+                                                            dislikes++;
+                                                            document.getElementById("dislikes").innerHTML = dislikes;
+                                                        }else{
+                                                            alert(response.message);
+                                                        }
+                                                    }
+                                                }
+                                                var postid = document.getElementById("<%=file._id%>").value;
+                                                ajax.send("postid="+postid);
+                                            }
+        
+        
+                                    </script>
+                                                                      
+                                 <!--  <div class="post-profile-icon">
+                                        <img src="<%=value_img%>">
+                                        <span><%=users.name%></span>  
+                                    </div>
+                                --> 
+                                </div>  
+                        </div> 
+                    <%})%>
+                </div> 
+                <!-- end of the if login -->
+                <script>
+                    var socket = io();   
+                    function postComment(form){
+                      var formData ={
+                            comment:form.comment.value,
+                            username:form.username.value,
+                            post_id:form.post_id.value,
+                            email:form.email.value,
+                            user_img:form.img.value
+                                };
+                       $.ajax({
+                        url:"/do-comment",
+                        method:"POST",
+                        data:formData,
+                        success:function(response){
+                            formData._id =response._id;
+                            let comment = document.getElementById("comment-input");
+                            socket.emit("joining",formData);
+                            comment.value="";
+                       }
+                   });
+
+                    return false;
+                }
+
+            $("#show").click(function(){
+                $("#uploads-modal").css("display","block")
+                $(".modal").css("margin-left","30%")
+                $(".modal").css("margin-top","15%")
+            })
+            $("#status").click(()=>{
+                $(".user-status-main").css("dispaly","block")
+            })
+            $("status-close").click(()=>{
+                $(".user-status-main").css("dispaly","none")
+            })
+            $("#realpost").click(()=>{
+                $("#uploads-modal").css("display","none")
+            })
+            $(".close-modal-2").click(function(){
+                $(".modal-2").css("display","none")
+            })
+
+            $(".submit-file").click(()=>{
+                $(".modal-2").css("display","none")
+            })
+
+            $("#form-id").click(function(){
+                $(".modal-2").css("display","block")
+            })
+
+            $(".close-modal").click(function(){
+                $("#uploads-modal").css("display","none")
+            })
+                var username='<%=users.name%>';
+                var image = '<%=profile.image%>';
+                function doPost(form){
+                    var formData={
+                        description:form.description.value,
+                        user_img:form.img.value,
+                        image:imgPath
+                    };
+                    $.ajax({
+                        url:"/post-upload",
+                        method:"POST",
+                        data:formData,
+                        success:function(response){
+                             formData._id = response._id;
+                             socket.emit("new_post",formData);
+                        }
+                    });
+                    return false;
+                }
+
+                   var imgPath = "";
+                   $("#form-upload").on("submit",function(e){
+                       e.preventDefault();
+                       $.ajax({
+                           url:"/do-upload-file",
+                           method:"POST",
+                           data:new FormData(this),
+                           contentType:false,
+                           cache:false,
+                           processData:false,
+                           success: function(response){
+                               imgPath = response;
+                           }
+                       });
+                   });
+
+
+
+            socket.on("post",(post)=>{
+                  
+            var html ="";
+            html+=`<div class="post-container">
+                    <div class="post-row">
+                        <div class="user-profile">
+                            <img src="${post.user.image}">  
+                            <div>
+                                <p>${post.user.name}</p>
+                                <p>${post.user.email}</p>
+                                <br>
+                                <span>
+                                    ${post.createdAt.year} |
+                                    ${post.createdAt.hrs}                                     
+                                </span>
+                            </div>
+                            
+                            <div>
+                    
+                    </div>
+                </div>
+
+                <div class="more-menu">
+                    <button type="button">
+                        <i class="fa fa-ellipsis-v"></i>
+                    </button>
+                </div>
+
+            </div>
+            <input type="hidden" name="postid" id="postid" value="${post._id}">
+
+            <div class="text">
+                                <p class="post-text">${post.description} | 
+                                   <i> 
+                                Lorem ipsum dolor sit amet consectetur, 
+                                adipisicing elit. Quam culpa natus adipisci molestiae itaque. Laboriosam esse impedit optio dolor enim ipsa deleniti libero quibusdam totam. 
+                                Quo alias corporis voluptatem maiores.
+                                    </i>
+                                    <a href="#">more here</a> 
+                                </p>
+                            </div>
+                        
+                            <div class="main-file">`
+                                if(post.imagePath){
+                                        if(post.imagePath.split('.').pop()=='mp4'){
+                                         html+=`   <video muted controls id="videoPlayer" class="thumbnail" onclick="this.play();">
+                                                <source class="dark-bg" src="${post.imagePath}"/>
+                                            </video>   `; 
+                                        }else{
+                                         html+=`<img src="${post.imagePath}" class="post-img">`
+                                            }
+                                }else{
+
+                                    }
+                                  html+= `</div>`;
+
+
+
+            html+=` <div class="post-row-1">
+                    <div class="activity-icons">
+                        
+                        <button type="button" class="btn btn-default" onclick="doLike();">
+                            <i class="fa fa-thumbs-up"></i>
+                            <span id="likes">
+                                ${post.likes.length}
+                            </span>
+                        </button>
+                        
+                        <button type="button" class="btn btn-default" onclick="doDisLike();">
+                            <i class="fa fa-thumbs-down"></i>
+                            <span id="dislikes">
+                            ${post.dislikes.length}
+                            </span>
+                        </button>
+
+                        <button type="button" class="btn btn-default" onclick="doDisLike();">
+                            <i class="fa fa-share"></i>
+                            <span id="share">
+                            ${post.dislikes.length}
+                            </span>
+                        </button>
+                        <a href="/all-comments/${post._id}" style="text-decoration: none;"><i class="fa fa-comment-alt"></i></a>
+
+                        <button type="button" class="btn btn-default">
+                            <i class="fa fa-comment-alt"></i>
+                            <span id="comment">
+                            ${post.comments.length}
+                            </span>
+                        </button>
+                    
+                    </div> 
+                                                    
+                    <div class="post-profile-icon">
+                        <img src="${image}">
+                        <span>${username}</span>  
+                    </div>
+
+                    <input type="hidden" name="postid" id="postid" value="${post._id}">
+                </div>
+
+            </div>`;
+                        $(`#posts`).prepend(html);
+                        })
+                
+                socket.on("new_comment",(comment)=>{
+                   
+                    var html = "";
+                    html += '<div class="media mb-4">';
+                       
+                    html+='<div class="media-body">';
+                    html+=`<div class="each-comment" style="border-radius: 6px;background-color: darkcyan; margin: 10px;">
+                        <img src="${comment.user_img}" style="width: 35px; height: 35px; margin-top: 5px; padding: 5px;" class="d-flex mr-3 rounded-circle">   
+                        <h5 class="mt-0" style="position: relative; left: 32px; top: -30px;">${comment.username}</h5>
+                        <p style="color: white;  margin-left: 20px;margin-top: -25px;">${comment.comment}</p>
+                        <div class="activity-icons" style="position: relative;top: -20px; left: 10px;">
+                            
+                            <button type="button" class="btn btn-default" onclick="doLike();">
+                                <i class="fa fa-thumbs-up"></i>
+                                <span id="likes">
+                                    0
+                                </span>
+                            </button>
+                            
+                            <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                <i class="fa fa-thumbs-down"></i>
+                                <span id="dislikes">
+                                    0
+                                </span>
+                            </button>
+
+                            <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                <i class="fa fa-reply-all"></i>
+                                <span id="share">
+                                    0
+                                </span>
+                            </button>
+                        </div> 
+                        </div>`;
+
+                    
+                       
+                    html+='</div>';
+                    html+='</div>';
+
+                    $(`#${comment.post_id}`).prepend(html);
+                });
+                
+                
+                function postReply(form){
+                        var formData ={
+                            post_id:form.post_id.value,
+                            comment_id:form.comment_id.value,
+                            name:form.name.value,
+                            reply:form.reply.value
+                        }
+                        
+                        $.ajax({
+                            url:"/do-reply",
+                            method:"POST",
+                            data:formData,
+                            success: function(response){
+                                formData._id =response._id;
+                                socket.emit("new_reply",formData);
+                            }
+
+                        })
+                        
+                        return false;
+                    }
+
+                    socket.on("new_reply",function(reply){
+                      
+                        var html = "" 
+                       
+                        $("#posts").prepend(html);
+                    });
+
+                    </script>
+
+                <!--- Load Button -->
+                <button type="button" class="load-more-btn" >Load More</button>
+                <!-----  Load Button ------->
+            </div>
+    
+
+            <div class="footer">
+                <p>Copyright@ 2021 #Tutorials</p>
+            </div>
+    </div>
+    <%}else{%>
+        <%- include("index1")%>
+    <%}%>
+    
+
+    <!--<script type="text/javascript" src="/public/vendor/jquery/jquery.min.js"></script>-->
+    <script src="/public/js/script.js"></script>
+</body>
+</html>

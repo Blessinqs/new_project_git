@@ -1,0 +1,387 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>chatsUI</title>
+       
+        <link rel="stylesheet" href="/public/css/all.min.css">
+        <link rel="stylesheet" href="/public/css/fontawesome.min.css">
+        <link rel="stylesheet" href="/public/css/chatui.css">
+        <link rel="stylesheet" href="/public/css/userchats.css">
+        <link rel="stylesheet" href="/public/vendor/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/public/emojionearea/dist/emojionearea.min.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/public/vendor/jquery/jquery.min.js"></script>
+       
+    </head>
+           
+    <body>
+        <%if(typeof isLogin!=="undefined" && isLogin){%>
+
+            <div class="body-container">
+                <nav>
+                    <div class="nav-left">
+                        <h3 style="color: aliceblue; margin-left: 20px; margin-top: 5px;font-weight: 600; "> Easy Schoolz</h3>
+                    </div>
+            
+                    <div class="nav-right">
+                        <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                            <img src="<%=profile.image%>">
+                        </div>
+                    </div>
+            
+                    <!-------- Settings Menu -------->
+                    <div class="settings-menu">
+                        <div id="dark-btn">
+                            <span></span>
+                        </div>
+                        <div class="settings-menu-inner">
+                            <div class="user-profile">
+                                <img src="<%=profile.image%>">
+                                <div>
+                                    <p><%=users.name%></p>
+                                   <a href="/profile">Your Profile</a>
+                                </div>
+                            </div>
+            
+                            <div class="settings-links">
+                                <img src="/public/images/setting.png" class="settings-icon">
+                                <a href="#">Settings </a>
+                            </div>
+                            <div class="settings-links">
+                                <img src="/public/images/help.png" class="settings-icon">
+                                <a href="#">Help</a>
+                            </div>
+        
+                            <div class="settings-links">
+                                <img src="/public/images/logout.png" class="settings-icon">
+                                <a href="#">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="header">
+
+                    <div class="main-hd">
+
+                        <div class="the-search">
+                            <input type="text" placeholder="Search..">
+                            <button style="cursor: pointer;">Search</button>
+                        </div>  
+
+                        <div class="left-chats" >
+                            <button id="friend" style="cursor: pointer;">Friends</button>
+                            <button id="Groups" style="cursor: pointer;">Groups</button>
+                        </div>
+
+                    </div>
+                    
+                    <div id="uploads-modal" >
+                        <div class="modal" style="width: 300px; display: block;">
+                            <div class="top-form">
+                                <div class="close-modal">
+                                    &#10006;
+                                </div>
+                            </div>
+                                <form onsubmit="return doPost(this);" style="padding:10px;padding-top:-5px;display: block; justify-content: center;align-items: center;">
+                                        <div>
+                                            <input type="text" class="form-control" placeholder="group name.." style="height: 35px; width: 100%;" name="group"> 
+                                        </div>
+                                      
+                                        <input type="submit"  name="submit" id="realpost" value="Save" style="width:100%; margin-top: 5px; margin-left: 20%; height: 35px; border: none;outline: none;border-radius: 5px; background-color: teal; margin: auto; padding-left: 5px;padding-right: 5px;">
+                                </form>
+                        </div>
+                    </div>
+                       
+                </div>
+
+               <!-- <div class="main" style="width: 85%; height: 100%; margin: auto; background-color: brown;">--> 
+                <div class="outer-main">
+
+                    <div class="main-section">
+                        
+                        <ul id="chat-friends">  
+                            <%for(var i=0; i<users.friends.length;i++){%>
+                               
+                                <li>
+                                    <div class="chat-user-profile">
+
+                                            <div class="me-img">
+                                                <a href="">
+                                                    <img src="/public/images/feed-image-4.png" >
+                                                </a>
+                                            </div>
+                                           
+                                            <div class="chat-user-msg">
+
+                                                <div class="chat-indiv-name-1">
+                                                    <div class="chat-indiv-name-2">
+                                                        <a href="/chatuser/<%=users.friends[i]._id%>"><%=users.friends[i].name%></a>
+                                                    </div>
+
+                                                    <div class="chat-indiv-name-3">
+                                                       <p>20/13/2022</p> 
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <div class="chat-msg-p">
+
+                                                    <div class="text-split">
+                                                        <%if(!(users.friends[i].messages.length)){%>
+                                                            <p>Start Chat...!</p>
+                                                        <%}else{%>
+                                                            <%var dochat=users.friends[i].messages.reverse()%>
+                                                            <p><%=dochat[0].message%></p>
+                                                        <%}%>
+                                                    </div>
+
+                                                    <div class="date-text">
+                                                       <p>Active at 20:56</p> 
+                                                    </div>
+
+                                                </div>  
+
+                                            </div>
+                                    </div>
+
+                                </li>         
+                                <%}%>
+                        </ul>
+
+                         <ul id="chat-groups" style="display: none;">
+                            <%chats.forEach(function(chat){%>
+                                <%if(!(chat.is_User)){%>
+
+                                <li>
+
+                                    <div class="chat-user-profile">
+                                        <div class="me-img">
+                                            <a href="">
+                                                <img src="/public/images/feed-image-5.png" >
+                                            </a>
+                                        </div>
+
+                                        <div class="chat-user-msg">
+                                            <div class="chat-indiv-name-1">
+
+                                                <dvi class="chat-indiv-name-2">
+                                                    <a href="/chat-page/<%=chat._id%>"><%=chat.room%></a>
+                                                </dvi>
+
+                                                <div class="chat-indiv-name-3">
+                                                    <p>Created On</p>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="chat-msg-p">
+
+                                                <div class="text-split">
+                                                    <%if(!(chat.messages.length)){%>
+                                                        <p>Start Chat</p>
+                                                    <%}else{%>
+                                                        <%var dochat=chat.messages.reverse()%>
+                                                        <p>
+                                                            <%=dochat[0].message%>
+                                                        </p>
+                                                    <%}%>
+                                                </div>
+
+                                                <div class="date-text">
+                                                    <p>20/12/2022</p> 
+                                                </div>
+
+                                            </div>                             
+                                        </div>
+                                    </div>
+                                </li>
+                                <%}%>
+                            <%})%>
+                        </ul>
+    
+                    </div> 
+
+                   <div class="ads">
+
+                       <div class="heading">
+                           <p>Announcements</p>
+                       </div>
+
+                       <div class="top-add">
+                         <img src="public/images/feed-image-3.png" >
+                       </div>
+
+ <!--                     <div class="heading-2">
+                            <p>Ads</p>
+                        </div>
+--> 
+                       <div class="below-ads">
+                           <div class="left-add">
+                                <img src="public/images/feed-image-3.png" >
+                           </div>
+                           <div class="right-add">
+                            <img src="public/images/feed-image-3.png" >
+                          </div>
+                        
+                      </div>
+
+                      <div class="announcement-btn">
+                            <button id="show">Add Group</button>
+                            <button>Create ads</button>
+                      </div>
+                       
+                   </div> 
+
+                </div>
+                
+               
+
+            </div>
+        <%}else{%>
+            <%- include("index1")%>
+        <%}%>
+      
+        <script>
+            var socket = io();
+            function doPost(form){
+                    var formData={
+                        name:form.group.value,
+                    };
+                    $.ajax({
+                        url:"/create-room",
+                        method:"POST",
+                        data:formData,
+                        success:function(response){
+                             formData._id = response._id;       
+                             socket.emit("new_group",formData);
+                        }
+                    });
+                    return false;
+                }
+
+        $("#show").click(function(){
+            $("#uploads-modal").css("display","block")
+            $(".modal").css("margin-left","30%")
+            $(".modal").css("margin-top","15%")
+        })
+        $("#Groups").click(()=>{
+            $("#chat-groups").css("display","block");
+            $(".left-chats button").css("outline","none").delay(1000);
+            $(".left-chats button").css("border","none").delay(1000);
+            $("#chat-friends").css("display","none");
+        })
+        $("#friend").click(()=>{
+            $("#chat-friends").css("display","block");
+            $(".left-chats button").css("outline","none").delay(1000);
+            $(".left-chats button").css("border","none").delay(1000);
+            $("#chat-groups").css("display","none");
+        })
+        $("#realpost").click(()=>{
+            $("#uploads-modal").css("display","none")
+        })
+        $(".close-modal-2").click(function(){
+            $(".modal-2").css("display","none")
+        })
+
+        $(".submit-file").click(()=>{
+            $(".modal-2").css("display","none")
+        })
+
+        $("#form-id").click(function(){
+            $(".modal-2").css("display","block")
+        })
+
+        $(".close-modal").click(function(){
+            $("#uploads-modal").css("display","none")
+        })
+
+        socket.on('new_group',(result)=>{
+            var html="";
+            if(!(result.is_User)){
+               html+= `<li style="color: white;cursor: pointer;" >
+                        <img src="/public/images/feed-image-5.png" >
+                        <a href="/chat-page/${result._id}">${result.room}</a>`;
+                        if(!(result.messages.length)){
+                        html+=` <p style="color:white;font-size: small; position:relative; left: 43px;top: -15px;"><em>handshake..! <i class="fa fa-handshake"></i></em></p>`;
+                            }else{
+                            var dochat=result.messages.reverse()        
+                             html+=` <p style="color:white; font-size: small; position: relative; left: 43px;top: -15px;">
+                                    ${dochat[0].message}</p>`;
+                            }
+                       html+= `<div style="float: right;width: 70px; position: relative; top: -60px; outline: none; border: none;">
+                                <a href="" style="margin-right: 5px;">
+                                        <i class="fa fa-envelope"></i>
+                                    </a>
+                                    <a href="">
+                                        <i class="fa fa-exchange-alt"></i>
+                                    </a>
+                                </div>
+                            </li>`;
+                            }
+            
+            $("#chat-groups").append(html);
+        })
+         /*
+            socket.on('oldmessages',(results)=>{
+            if(username==results.user){
+                $("#chats").append(`
+                <div class="chat-r">
+                    <div class="sp"></div>
+                    <div class="mess mess-r">
+                        <img src="/public/images/profile-pic.png" class="left-pp"><span style="padding:4px;">${results.user}</span>
+                            <p>${results.message}<img src="/public/images/feeling.png" class="emoji"></p>
+                                <div class="check">
+                                    <span>4:00 PM</span>
+                                    <img src="/public/images/done.png" >
+                                </div>      
+                        </div>
+                    </div>`);
+                }else{
+                $("#chats").append(`
+                    <div class="chat-l">
+                        <div class="mess mess-r">
+                            <img src="/public/images/profile-pic.png" class="left-pp"><span style="padding:4px;">${results.user}</span>
+                                <p>${results.message}<img src="/public/images/feeling.png" class="emoji"></p>
+                                    <div class="check">
+                                        <span>4:00 PM</span>
+                                    </div>
+                                </div>
+                            <div class="sp"></div>
+                        </div>`);
+            }
+            });
+    
+            socket.on('oldimage',(data)=>{
+                /*
+            document.getElementById('imag').src = data;
+            //console.log(data)
+            if(username){
+            $("#chats").append(`
+            <div class="chat-r">
+                <div class="sp"></div>
+                <div class="mess mess-r">
+                    <img src="/public/images/profile-pic.png" class="left-pp"><span style="padding:4px;">${username}</span>
+                        <img id="imag" src="${data}" style="width:100%; height: 200px;">   
+                    </div>
+                </div>`);
+            }else if(username==undefined || !data){}
+            else{
+            $("#chats").append(`
+            <div class="chat-l">
+                <div class="mess mess-r">
+                    <img src="/public/images/profile-pic.png" class="left-pp"><span style="padding:4px;">${username}</span>
+                        <img id="imag" src="${data}" style="width:100%; height: 200px;">  
+                        </div>
+                        <div class="sp"></div>
+                    </div>`);
+            }
+            });*/
+    
+        </script>
+        
+        
+    </body>
+    </html>

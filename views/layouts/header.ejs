@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/all.min.css">
+    <link rel="stylesheet" href="/public/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/public/css/blog-post.css">
+    <link rel="stylesheet" href="/public/css/modern-business.css">
+    <link rel="stylesheet" href="/public/css/simple-sidebar.css">
+    <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <title>Socials Here</title>
+</head>
+<body>
+
+    <nav class="fixed-top">
+        <div class="nav-left">
+            <h3></h3>
+            <img src="/public/images/menu.png" class="logo">
+            <ul>
+                <li><img src="/public/images/notification.png" ></li>
+                <li><img src="/public/images/video.png" ></li>
+                <li><img src="/public/images/inbox.png" ></li>
+            </ul>
+        </div>
+
+        <div class="nav-right">
+            <div class="search-box">
+                <h3 class="fa fa-search"></h3>
+                <input type="text" placeholder="Search">
+            </div>
+            <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                <img src="/public/images/member-4.png">
+            </div>
+
+        </div>
+        <!-------- Settings Menu -------->
+        <div class="settings-menu">
+            <div id="dark-btn">
+                <span></span>
+            </div>
+            <div class="settings-menu-inner">
+                <div class="user-profile">
+                    <img src="/public/images/member-3.png">
+                    <div>
+                        <p><%=users.name%></p>
+                       <a href="/profile">Your Profile</a>
+                    </div>
+                </div>
+                <hr>
+                <div class="user-profile">
+                    <img src="/public/images/feedback.png">
+                    <div>
+                        <p>Give Feedback</p>
+                       <a href="#">Help us to improve the new Design</a>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="settings-links">
+                    <img src="/public/images/setting.png" class="settings-icon">
+                    <a href="#">Settings & Privacy <img src="/public/images/arrow.png" width="10px"></a>
+                </div>
+                <div class="settings-links">
+                    <img src="/public/images/help.png" class="settings-icon">
+                    <a href="#">Help and Support <img src="/public/images/arrow.png" width="10px"></a>
+                </div>
+                <div class="settings-links">
+                    <img src="/public/images/display.png" class="settings-icon">
+                    <a href="#">Display & Accessibility <img src="/public/images/arrow.png" width="10px"></a>
+                </div>
+                <div class="settings-links">
+                    <img src="/public/images/logout.png" class="settings-icon">
+                    <a href="/login">Logout<img src="/public/images/arrow.png" width="10px"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-----------------/public/ left-sidebar -------------->
+        <div class="left-sidebar">
+            <div class="imp-links">
+                <a href="#"><img src="/public/images/news.png">Latest Topics</a>
+                <a href="#"><img src="/public/images/member-6.png">My Projects</a>
+                <a href="#"><img src="/public/images/friends.png">Discussions</a>
+                <a href="#"><img src="/public/images/group.png">My Classes</a>
+                <a href="#"><img src="/public/images/watch.png">Tutorials</a>
+                <a href="#">See More</a>
+            </div>
+            <div class="shortcut-links">
+                <p>Your Education Interests</p>
+                <a href="#"><img src="/public/images/shortcut-1.png">Web Developers</a>
+                <a href="#"><img src="/public/images/shortcut-2.png">Web Design </a>
+                <a href="#"><img src="/public/images/shortcut-3.png">Back End Development</a>
+                <a href="#"><img src="/public/images/shortcut-4.png">Full Stack Experts</a>
+            </div>
+        </div>
+        

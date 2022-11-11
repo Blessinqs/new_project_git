@@ -1,0 +1,465 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="public/css/all.min.css">
+    <link rel="stylesheet" href="public/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/public/css/chatui.css">
+    <link rel="stylesheet" href="/public/css/profile.css">
+    <script src="/public/tinymce/js/tinymce/tinymce.min.js"></script>
+    <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.min.css">
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>tinymce.init({selector:'textarea'})</script>
+</head>
+<body>
+    <div class="body-container" style="display: block;">
+        <nav>
+            <div class="nav-left">
+               <img src="/public/images/round_dehaze_white_24dp.png" class="menu-nav">
+                <h4 style="color: aliceblue; margin-left: 20px; margin-top: 10px;"><b>Easy <span style="color: dodgerblue;">School</span></b></h4>
+            </div>
+    
+            <div class="nav-right">
+           
+
+                <script>
+                    function readNotification(self){
+                        var _id = self.getAttribute("data-id");
+                        var ajax = new XMLHttpRequest();
+                        ajax.open("POST","/read-notifictaion",true);
+                        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                        ajax.onreadystatechange = function(){
+                            if(this.readyState==4 && this.status==200){
+                                var response = JSON.parse(this.responseText);
+                                if(response.status=="error"){
+                                    alert(response.message);
+                                }
+                            }
+                        }
+                        ajax.send("notificationId="+_id);
+                        return true;
+                    }
+
+                    
+                    var ajax = new XMLHttpRequest();
+                    ajax.open("GET","/get_user",true);
+
+                    ajax.onreadystatechange = function(){
+                        if(this.readyState==4 && this.status==200){
+                            var response = JSON.parse(this.responseText);
+                            if(response.status=="success"){
+                                window.user = response.user;
+                                var html = "";
+                                window.user.notifications = window.user.notifications.reverse();
+                                for(var a=0;a<window.user.notifications.length;a++){
+                                    var notification = window.user.notifications[a];
+                                    if(!notification.is_read){
+                                        if(notification.type=="new_comment"){
+                                            html += '<a class="dropdown-item" onclick="return readNotification(this);" data-id="'+notification._id+'" href="#">New comment</a>';
+                                        }
+                                    }
+                                }
+                                document.getElementById("unread-notifications").innerHTML = html;
+                            }else{
+                            alert(response.message)
+                            }  
+                        }
+                    };
+
+                    ajax.send()
+                </script>
+                <%   
+                var value_img="";
+                    if(profile.image){
+                        value_img = profile.image;
+                    }else{
+                        value_img = profile;
+                    }  
+                %>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false"> 
+                    <i class="fa fa-bell fa-fw" style="color: white;"></i>
+                </button>
+                <div class="dropdown-menu" id="unread-notifications" aria-labelledby="dropdownMenuButton"></div>
+                </div>
+                <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                    <img src="<%=value_img%>">
+                </div>
+            </div>
+    
+            <!-------- Settings Menu -------->
+            <div class="settings-menu">
+                <div id="dark-btn">
+                    <span></span>
+                </div>
+                <div class="settings-menu-inner">
+                    <div class="user-profile">
+                        <img src="<%=value_img%>">
+                        <div>
+                            <p><%=users.name%></p>
+                           <a href="/profile">Your Profile</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="settings-links">
+                        <img src="/public/images/help.png" class="settings-icon">
+                        <a href="#">Help</a>
+                    </div>
+                    <hr>
+                    <div class="settings-links">
+                        <img src="/public/images/logout.png" class="settings-icon">
+                        <a href="#">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+   
+    
+        <div class="profile-details">
+            <div class="pd-top">
+                <div class="pd-row">  
+
+                    <div id="pic">
+                        <img src="<%=value_img%>">
+                        <button type="button" id="show">
+                            <img src="/public/images/outline_mode_edit_outline_black_24dp.png" style="height: 20px;">
+                        </button>
+                    </div>
+   
+                    <div class="down-pd">
+
+                        <div class="up">
+                            <div>
+                                <h3><%=users.name%></h3>
+                                <p><%=users.email%> your email</p>
+                            </div>
+                        </div>
+                       
+                        <div class="friends-pro">
+                            <div class="down">
+                                <img src="public/images/member-2.png">
+                                <img src="public/images/member-3.png">
+                                <img src="public/images/member-5.png">
+                                <img src="public/images/member-6.png">
+                                <img src="public/images/member-4.png">
+                                <img src="public/images/member-5.png">
+                                <img src="public/images/member-6.png">
+                                <img src="public/images/member-5.png">
+                                
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+            <div class="pd-right">
+                <div class="pd-side">
+                    <div class="heading">
+                        <p><b>Classes</b></p>
+                    </div>
+                    <div class="class-list">
+                        <img src="public/images/member-2.png">
+                        <img src="public/images/member-3.png">
+                        <img src="public/images/member-5.png">
+                        <img src="public/images/member-6.png">
+                        <img src="public/images/member-4.png">
+                        <img src="public/images/member-5.png">
+                        
+                    </div>
+                </div>
+                <div class="pd-side">
+                    <div class="heading">
+                        <p><b>Saved</b></p>
+                    </div>
+                    <div class="class-list">
+                        <img src="public/images/member-2.png">
+                        <img src="public/images/member-3.png">
+                        <img src="public/images/member-5.png">
+                        <img src="public/images/member-6.png">
+                        <img src="public/images/member-4.png">
+                        <img src="public/images/member-5.png">
+                    </div>   
+                </div>
+
+            </div>
+                 
+        </div>
+
+        <div class="profile-info">
+                <div class="profile-intro">
+
+                    <div class="left-intro">
+                        <h3>PERSONAL DETAILS</h3>
+                        <hr>
+                        <div class="personal-info">
+
+                            <div class="main-info">
+                                <div class="cover-photo">
+                                    <img src="<%=value_img%>" style="height: 30px; width: 30px; border-radius: 50%;">
+                                </div>  
+                                <span><%=users.name%></span>
+                            </div>
+
+                            <div class="main-info">
+                                <div class="cover-photo">
+                                    <img src="public/images/profile-study.png">
+                                </div> 
+                                <span>Enlorred At Malawi Polytechinic University</span>
+                            </div>
+
+                            <div class="main-info">
+                                <div class="cover-photo">
+                                    <img src="public/images/profile-study.png">
+                                </div>
+                                <span>Studies Information Technology(ICT)</span> 
+                            </div>
+
+                            <div class="main-info">
+                                <div class="cover-photo">
+                                    <img src="/public/images/feed-image-4.png">
+                                </div> 
+                                <span>Studied At Chilumba Sec School</span>
+                            </div>
+
+                            <div class="main-info">
+                                <div class="cover-photo">
+                                    <img src="public/images/profile-home.png">
+                                </div>                                
+                                <span>Based in Blantyre, Malawi</span>
+                            </div>
+
+                            <div class="main-info">
+                                <div class="cover-photo">
+                                    <img src="/public/images/round_add_ic_call_white_24dp.png">
+                                </div>
+                               <span> 0995669337</span>
+                            </div>
+
+                        </div>
+                    
+                    </div>
+
+                    <div class="left-intro">
+                        <h3>EDUCATION INTERESTS</h3>
+                        <hr>
+
+                        <div class="personal-info">
+
+                            <div class="main-info">
+                                <div class="cover-photo">
+                                    <img src="public/images/profile-study.png">
+                                </div>
+                               <span> SCIENCES IN INFORMATION SYSTEMS</span>
+                            </div>
+
+                            
+                            <div class="main-info">
+                                <div class="cover-photo">
+                                    <img src="public/images/profile-study.png">
+                                </div>
+                               <span> SCIENCES IN INFORMATION SYSTEMS</span>
+                            </div>
+
+                            
+                            <div class="main-info">
+                                <div class="cover-photo">
+                                    <img src="public/images/profile-study.png">
+                                </div>
+                               <span> SCIENCES IN INFORMATION SYSTEMS</span>
+                            </div>
+
+                            
+                            <div class="main-info">
+                                <div class="cover-photo">
+                                    <img src="public/images/profile-study.png">
+                                </div>
+                               <span> SCIENCES IN INFORMATION SYSTEMS</span>
+                            </div>
+
+                        </div>
+                   
+                    </div>
+                    
+
+                </div>
+                <div class="profile-intro">
+                    <div class="main-box">
+
+                        <div class="media-box">
+                            <div class="books-box">
+    
+                            </div>
+                        </div>
+
+                        <div class="media-box">
+                            <div class="photo-box">
+                                
+                            </div>
+                        </div>
+
+                        <div class="media-box">
+                            <div class="docs-box">
+                                
+                            </div>
+                        </div>
+
+                    </div>    
+
+                </div>
+                <div class="profile-intro" style="display: none;">
+                    <div class="title-box">
+                        <h3>Photos</h3>
+                        <hr>
+                    </div>
+ 
+                    <div class="photo-box">
+                        <%if(users.images){%>
+                            <%users.images.forEach(function(image){%>
+                                <div class="indiv-photo">
+                                    <img src="<%=image.image%>">
+                                </div>
+                            <%})%>
+                        <%}else{%>
+                        <div>
+                            <img src="public/images/feed-image-4">
+                        </div>
+                        <%}%>
+                    </div>
+                </div>
+
+            </div>
+    </div> 
+
+</div>
+
+<div id="uploads-modal" >
+    <div class="modal" style="height: 250px;width: 300px; display: block;">
+        <div class="top-form">
+            <div class="close-modal">
+                &#10006;
+            </div>
+        </div>
+            <form onsubmit="return doPost(this);" enctype="multipart/form-data" style="padding:10px;padding-top:-5px;display: block; justify-content: center;align-items: center;">
+                    <button type="button" id="form-id" style="height: 35px; border: none;outline: none; border-radius: 5px; background-color: teal; padding-left: 5px;padding-right: 5px;" >Upload Video</button>
+                    <br>
+                    <div style="">
+                        <label >Photo Description</label>
+                        <br>
+                        <input type="text" class="form-control" placeholder="video description.." style="height: 35px; width: 100%;" name="description"> 
+                    </div>
+                    <br>
+                    <input type="submit"  name="submit" id="realpost" value="Post" style="width:100%; margin-top: 5px; margin-left: 20%; height: 35px; border: none;outline: none;border-radius: 5px; background-color: teal; margin: auto; padding-left: 5px;padding-right: 5px;">
+            </form>
+    </div>
+</div>
+
+<div class="modal-2" style="height: 200px;width: 300px; display: none;position: fixed;">
+    <div class="top-form">
+        <div class="close-modal-2" style="cursor: pointer;">
+            &#10006;
+        </div>
+    </div>
+        <form enctype="multipart/form-data" style="padding:10px ;" id="form-upload">
+                <div style="clear: both;">
+                    <h5>Photo</h5>
+                    <br>
+                    <input type="file" class="form-control" accept="image/*" name="image">
+                </div>
+                    <br>
+                <input type="submit" name="submit" class="submit-file" value="upload" style="margin-left: 20px; height: 35px; border: none;outline: none;border-radius: 5px; background-color: teal; margin: auto; padding-left: 5px;padding-right: 5px;">
+        </form>
+</div>
+
+<script>
+var socket = io();
+$("#show").click(function(){
+    $("#uploads-modal").css("display","block")
+    $(".modal").css("margin-left","30%")
+    $(".modal").css("margin-top","15%")
+})
+$("#realpost").click(()=>{
+    $("#uploads-modal").css("display","none")
+})
+$(".close-modal-2").click(function(){
+    $(".modal-2").css("display","none")
+})
+
+$(".submit-file").click(()=>{
+    $(".modal-2").css("display","none")
+})
+
+$("#form-id").click(function(){
+    $(".modal-2").css("display","block")
+})
+
+$(".close-modal").click(function(){
+    $("#uploads-modal").css("display","none")
+})
+
+var username='<%=users.name%>';
+function doPost(form){
+    var formData={description:form.description.value,image:imgPath};
+    $.ajax({
+        url:"/profile-photo",
+        method:"POST",
+        data:formData,
+        success:function(response){
+             formData._id = response._id;
+             
+             var socket = io();
+             socket.emit("user_profile",formData);
+        }
+    });
+    return false;
+}
+
+   var imgPath = "";
+   $("#form-upload").on("submit",function(e){
+       e.preventDefault();
+       $.ajax({
+           url:"/do-upload-file",
+           method:"POST",
+           data:new FormData(this),
+           contentType:false,
+           cache:false,
+           processData:false,
+           success: function(response){
+               imgPath = response;
+           }
+       })
+   });
+
+   socket.on("user_profile",(data)=>{
+        /*var html="";
+        html+='<img src="'+data.image+'" class="pd-image" style="border: 4px solid teal; border-radius: 50%;">';*/
+        /*document.querySelector("pd-image").src = data.image;*/
+           /* $('#pic').append(html);*/
+   })
+</script>
+    
+    <script type="text/javascript" src="/public/vendor/jquery.js"></script>
+    <script src="/public/js/script.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+  

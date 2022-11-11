@@ -1,0 +1,472 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>comments</title>
+    <link rel="stylesheet" href="/public/css/chatui.css">
+    <link rel="stylesheet" href="/public/css/all.min.css">
+    <link rel="stylesheet" href="/public/css/comments.css">
+    <script src="/public/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script>tinymce.init({selector:'text'})</script>
+</head>
+<body>
+    <%if(isLogin!=='undefined' && isLogin){%>
+        <div class="body-container" style="display: block;">
+
+            <nav>
+                <div class="nav-left">
+                    <h2 style="color: aliceblue; margin-left: 20px; margin-top: 5px;"> Easy Schoolz</h2>
+                </div>
+        
+                <div class="nav-right">
+                    <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                        <img src="<%=profile.image%>">
+                    </div>
+                </div>
+        
+                <!-------- Settings Menu -------->
+                <div class="settings-menu">
+                    <div id="dark-btn">
+                        <span></span>
+                    </div>
+                    <div class="settings-menu-inner">
+                        <div class="user-profile">
+                            <img src="<%=profile.image%>">
+                            <div>
+                                <p><%=users.name%></p>
+                               <a href="/profile">Your Profile</a>
+                            </div>
+                        </div>
+        
+                        <div class="settings-links">
+                            <img src="/public/images/setting.png" class="settings-icon">
+                            <a href="#">Settings </a>
+                        </div>
+                        <div class="settings-links">
+                            <img src="/public/images/help.png" class="settings-icon">
+                            <a href="#">Help</a>
+                        </div>
+    
+                        <div class="settings-links">
+                            <img src="/public/images/logout.png" class="settings-icon">
+                            <a href="#">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>  
+
+            <div class="main-div-section">
+            
+                <div class="main-section">
+                    
+                    <div class="discussion-post-section">
+                        <ul>
+                            <li><a href="">Discussions</a></li>
+                            <li><a href="">Questions</a></li>
+                            <li><a href="">Debates</a></li>
+                        </ul>
+                    
+                        <div class="write-post">
+                            <textarea name="" id="" cols="30" rows="10"></textarea>
+                        </div>
+
+                        <div class="btn-submits">
+                            <button >Paste</button>
+                            <button >Clear</button>
+                        </div>
+
+                    </div>
+
+                <div class="discussion-post-section" >
+
+                        <div class="profile-poster">
+                            <img src="/public/images/photo3.png">
+                                <p style="color:rgb(218, 215, 212);">Jame nyondo <br>
+                                <small style="font-size: x-small;" >Created On 29/8/2020</small></p>
+                        </div>
+                
+                        <div class="topic-posted">
+                            <div class="post-name-1">       
+                                <p >
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste voluptatibus molestias 
+                                    adipisci pariatur nam facere explicabo inventore nisi consectetur, corrupti cumque iure magnam soluta.
+                                </p>
+                            </div>
+
+                            <div class="button-section">
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-down"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+                                
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-share"></i>
+                                    <span id="share">
+                                    0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-comments"></i>
+                                    <span id="comment">
+                                    0
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="discussion-post-section" >
+
+                        <div class="profile-poster">
+                            <img src="/public/images/photo3.png">
+                                <p style="color:rgb(218, 215, 212);">Jame nyondo <br>
+                                <small style="font-size: x-small;" >Created On 29/8/2020</small></p>
+                        </div>
+                
+                        <div class="topic-posted">
+                            <div class="post-name-1">       
+                                <p >
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste voluptatibus molestias 
+                                    adipisci pariatur nam facere explicabo inventore nisi consectetur, corrupti cumque iure magnam soluta.
+                                </p>
+                            </div>
+
+                            <div class="button-section">
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-down"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+                                
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-share"></i>
+                                    <span id="share">
+                                    0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-comments"></i>
+                                    <span id="comment">
+                                    0
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="discussion-post-section" >
+
+                        <div class="profile-poster">
+                            <img src="/public/images/photo3.png">
+                                <p style="color:rgb(218, 215, 212);">Jame nyondo <br>
+                                <small style="font-size: x-small;" >Created On 29/8/2020</small></p>
+                        </div>
+                
+                        <div class="topic-posted">
+                            <div class="post-name-1">       
+                                <p >
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste voluptatibus molestias 
+                                    adipisci pariatur nam facere explicabo inventore nisi consectetur, corrupti cumque iure magnam soluta.
+                                </p>
+                            </div>
+
+                            <div class="button-section">
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-down"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+                                
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-share"></i>
+                                    <span id="share">
+                                    0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-comments"></i>
+                                    <span id="comment">
+                                    0
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="discussion-post-section" >
+
+                        <div class="profile-poster">
+                            <img src="/public/images/photo3.png">
+                                <p style="color:rgb(218, 215, 212);">Jame nyondo <br>
+                                <small style="font-size: x-small;" >Created On 29/8/2020</small></p>
+                        </div>
+                
+                        <div class="topic-posted">
+                            <div class="post-name-1">       
+                                <p >
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste voluptatibus molestias 
+                                    adipisci pariatur nam facere explicabo inventore nisi consectetur, corrupti cumque iure magnam soluta.
+                                </p>
+                            </div>
+
+                            <div class="button-section">
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-down"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+                                
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-share"></i>
+                                    <span id="share">
+                                    0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-comments"></i>
+                                    <span id="comment">
+                                    0
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="discussion-post-section" >
+
+                        <div class="profile-poster">
+                            <img src="/public/images/photo3.png">
+                                <p style="color:rgb(218, 215, 212);">Jame nyondo <br>
+                                <small style="font-size: x-small;" >Created On 29/8/2020</small></p>
+                        </div>
+                
+                        <div class="topic-posted">
+                            <div class="post-name-1">       
+                                <p >
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste voluptatibus molestias 
+                                    adipisci pariatur nam facere explicabo inventore nisi consectetur, corrupti cumque iure magnam soluta.
+                                </p>
+                            </div>
+
+                            <div class="button-section">
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-down"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+                                
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-share"></i>
+                                    <span id="share">
+                                    0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-comments"></i>
+                                    <span id="comment">
+                                    0
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="discussion-post-section" >
+
+                        <div class="profile-poster">
+                            <img src="/public/images/photo3.png">
+                                <p style="color:rgb(218, 215, 212);">Jame nyondo <br>
+                                <small style="font-size: x-small;" >Created On 29/8/2020</small></p>
+                        </div>
+                
+                        <div class="topic-posted">
+                            <div class="post-name-1">       
+                                <p >
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste voluptatibus molestias 
+                                    adipisci pariatur nam facere explicabo inventore nisi consectetur, corrupti cumque iure magnam soluta.
+                                </p>
+                            </div>
+
+                            <div class="button-section">
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+
+                                <button type="button" class="btn btn-default" onclick="doLike();">
+                                    <i class="fa fa-thumbs-down"></i>
+                                    <span id="likes">
+                                    0
+                                    </span>
+                                </button>
+                                
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-share"></i>
+                                    <span id="share">
+                                    0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                                    <i class="fa fa-comments"></i>
+                                    <span id="comment">
+                                    0
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    
+                </div>
+
+                <div class="sidebar-left">
+
+                    <div class="category-module">
+                        <div class="module-general">
+                            <a href="">General</a>
+                        </div>
+
+                        <div class="search-general">
+                            <input type="text" placeholder=" Search...">
+                        </div>
+
+                        <div class="module">
+                            <button>
+                                <a href="">Cormmece</a>
+                            </button> 
+                        </div>
+
+                        <div class="module">
+                            <button>
+                                <a href="">Engineering</a>
+                            </button> 
+                        </div>
+
+                        <div class="module">
+                            <button>
+                                <a href="">Networking</a>
+                            </button> 
+                        </div>
+
+                        <div class="module">
+                            <button>
+                                <a href="">Humanities</a>
+                            </button> 
+                        </div>
+
+                        <div class="module">
+                            <button>
+                                <a href="">Programming</a>
+                            </button> 
+                        </div>
+                        
+                    </div>
+
+                    <div class="side-head">
+                        <p>Participants</p>
+                    </div>     
+                    <ul>
+                        <li>
+                            <div class="main-pro-1">
+                                <img src="/public/images/member-9.png">
+                            </div>
+                            <div class="main-pro">
+                                <span>James <br> <p>Active 2:40</p>  </span>
+                            </div>   
+                         
+                        </li>
+                        <li>
+                            <div class="main-pro-1">
+                                <img src="/public/images/member-9.png">
+                            </div>
+                            <div class="main-pro">
+                                <span>James <br> <p>Active 2:40</p>  </span>
+                            </div>   
+                         
+                        </li>
+
+                        <li>
+                            <div class="main-pro-1">
+                                <img src="/public/images/member-9.png">
+                            </div>
+                            <div class="main-pro">
+                                <span>James <br> <p>Active 2:40</p>  </span>
+                            </div>   
+                         
+                        </li>
+
+                        <li>
+                            <div class="main-pro-1">
+                                <img src="/public/images/member-9.png">
+                            </div>
+                            <div class="main-pro">
+                                <span>James <br> <p>Active 2:40</p> </span>
+                            </div>   
+                         
+                        </li>
+                    </ul>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    
+    
+    <%}else{%>
+        <%- include("index1")%>
+    <%}%>
+
+    
+
+
+
+</body>
+<script src="comments.js"></script>
+</html>

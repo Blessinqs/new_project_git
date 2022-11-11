@@ -1,0 +1,233 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/chatui.css">
+    <link rel="stylesheet" href="/public/css/all.min.css">
+    <link rel="stylesheet" href="/public/css/watch.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <title></title>
+</head>
+<body>
+    <div class="body-container" style="display: block;">
+
+        <nav>
+            <div class="nav-left">
+                <h4 style="color: aliceblue; margin-left: 20px; margin-top: 10px;"><b>Easy <span style="color: dodgerblue;">School</span></b></h4>
+            </div>
+    
+            <div class="nav-right">
+
+                <script>
+                    function readNotification(self){
+                        var _id = self.getAttribute("data-id");
+                        var ajax = new XMLHttpRequest();
+                        ajax.open("POST","/read-notifictaion",true);
+                        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                        ajax.onreadystatechange = function(){
+                            if(this.readyState==4 && this.status==200){
+                                var response = JSON.parse(this.responseText);
+                                if(response.status=="error"){
+                                    alert(response.message);
+                                }
+                            }
+                        }
+                        ajax.send("notificationId="+_id);
+                        return true;
+                    }
+
+                    
+                    var ajax = new XMLHttpRequest();
+                    ajax.open("GET","/get_user",true);
+
+                    ajax.onreadystatechange = function(){
+                        if(this.readyState==4 && this.status==200){
+                            var response = JSON.parse(this.responseText);
+                            if(response.status=="success"){
+                                window.user = response.user;
+                                var html = "";
+                                window.user.notifications = window.user.notifications.reverse();
+                                for(var a=0;a<window.user.notifications.length;a++){
+                                    var notification = window.user.notifications[a];
+                                    if(!notification.is_read){
+                                        if(notification.type=="new_comment"){
+                                            html += '<a class="dropdown-item" onclick="return readNotification(this);" data-id="'+notification._id+'" href="#">New comment</a>';
+                                        }
+                                    }
+                                }
+                                document.getElementById("unread-notifications").innerHTML = html;
+                            }else{
+                            alert(response.message)
+                            }  
+                        }
+                    };
+
+                    ajax.send()
+                </script>
+
+                <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                    <img src="<%=profile.image%>">
+                </div>
+
+            </div>
+    
+            <!-------- Settings Menu -------->
+            <div class="settings-menu">
+                <div id="dark-btn">
+                    <span></span>
+                </div>
+                <div class="settings-menu-inner">
+                    <div class="user-profile">
+                        <img src="<%=profile.image%>">
+                        <div>
+                            <p><%=users.name%></p>
+                           <a href="/profile">Your Profile</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="settings-links">
+                        <img src="/public/images/setting.png" class="settings-icon">
+                        <a href="#">Settings </a>
+                    </div>
+                    <hr>
+                    <div class="settings-links">
+                        <img src="/public/images/help.png" class="settings-icon">
+                        <a href="#">Help</a>
+                    </div>
+                    <hr>
+                    <div class="settings-links">
+                        <img src="/public/images/logout.png" class="settings-icon">
+                        <a href="#">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="main-video-section">
+
+            <div class="main-section">
+
+                <div class="video-board">  
+                    <video autoplay controls id="videoPlayer" src="<%=video.videoPath%>" style="height: 100%; width: 100%;">  
+                    </video>
+                </div>
+
+                <div class="activity-section">
+                        <div class="vid-title">
+                            <img src="/public/images/member-7.png" style="width: 30px;height: 30px; border-radius: 50%;">
+                            <span style="color: white;"><%=video.user.name%> </span>
+                        </div>
+                       
+                        <div class="activity-btns">
+                            <div class="activity-icons">
+                                <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    <span id="likes">
+                                       0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                    <i class="fa fa-thumbs-down"></i>
+                                    <span id="dislikes">
+                                       0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                    <i class="fa fa-share"></i>
+                                    <span id="share">
+                                       0
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();">
+                                    <i class="fa fa-download"></i>
+                                    <span id="download">
+                                       0
+                                    </span>
+                                </button>
+  
+                                <button type="button" class="btn btn-default" style="color:white;" onclick="doLike();"> 
+                                    <i class="fa fa-comment"></i>
+                                    <span id="download">
+                                        4k 
+                                    </span>
+                                </button>
+                              
+                            </div>
+                            
+                        </div>
+
+                        
+                    </div>
+                    <div class="vid-description" >
+                        <p><b><%=video.description%></b></p>
+                        <div class="btn"> 
+                            <span id="download">
+                               <b>4k Views</b> 
+                            </span>
+                    </div>
+                    <div class="comments-btn">
+                        <button type="button" onclick="doLike();"> 
+                            <a href="" id="download">View Comments</a>
+                        </button>
+                    </div>
+                    </div>
+                    
+ 
+               
+            </div>
+
+            <div class="side-vid-list">
+
+                <div class="head-video">
+                    <p> Related Videos</p>
+                </div>
+
+                <div class="bar-video">
+
+                    <ul>
+                    
+                        <%all.forEach(function(player){%>
+
+                            <li >
+                                <div class="one-vid">
+                                    <a href="">
+                                        <video controls id="videoPlayer" src="<%=player.videoPath%>"> 
+                                        </video>
+                                    </a>
+                                </div>
+                                
+                                <div class="vid-info">
+
+                                    <div class="description">
+                                        <a href=""><%=player.description%></a href="">            
+                                    </div>
+                                   
+                                    <div class="view-like-info">
+
+                                        <div class="viewed">            
+                                            <p id="likes">34k views</p>
+                                        </div>
+
+                                    </div>
+
+                                </div> 
+
+                            </li>
+
+                        <%})%>
+                        
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

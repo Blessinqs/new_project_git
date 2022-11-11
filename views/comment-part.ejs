@@ -1,0 +1,103 @@
+<div id="<%=file._id%>" class="main-comment">
+    <%
+    file.comments = file.comments.reverse();
+    file.comments.forEach(function(comment){
+    %>
+    <div class="media mb-4" style="margin-top: -5px;">
+        <input type="hidden"  class="comment_id" value="<%=comment._id%>">
+        <div class="media-body">
+           <div class="each-comment" style="border-radius: 6px;background-color: darkcyan; margin: 10px;">
+
+            <img src="<%=comment.user.image%>" style="width: 35px; height: 35px; margin-top: 5px; padding: 5px;" class="d-flex mr-3 rounded-circle">   
+            <h5 class="mt-0" style="position: relative; left: 32px; top: -30px;"><%=comment.user.name%></h5>
+            <p style="color: white;  margin-left: 20px;margin-top: -25px;"><%=comment.comment%></p>
+
+            <div class="activity-icons" style="position: relative;top: -20px; left: 10px;">
+                
+                <button type="button" class="btn btn-default" onclick="doLike();">
+                    <i class="fa fa-thumbs-up"></i>
+                    <span id="likes">
+                        <%=file.likes.length%>
+                    </span>
+                </button>
+                
+                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                    <i class="fa fa-thumbs-down"></i>
+                    <span id="dislikes">
+                      <%=file.dislikes.length%>
+                    </span>
+                </button>
+
+             <!--<a href="/download/<%=file._id%>" style="text-decoration: none;"><i class="fa fa-download"></i></a>
+                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                    fa-comment-alt/all-comments/
+                    <span id="download">
+                      <%=file.dislikes.length%>
+                    </span>
+                </button>
+            -->
+
+                <button type="button" class="btn btn-default" onclick="doDisLike();">
+                    <i class="fa fa-reply-all"></i>
+                    <span id="share">
+                      <%=file.dislikes.length%>
+                    </span>
+                </button>
+            
+
+
+               
+            </div> 
+           </div>
+            
+            <div id="replies" style="margin-left: 30px;">
+                <%if(comment.replies){%>
+                    <%comment.replies.forEach(function(reply){%>
+                        <div class="media mb-4">
+                            
+                            <div class="media-body">
+                                <img src="<%=reply.user.image%>" style="width: 30px; height: 30px;" class="d-flex mr-3 rounded-circle">
+                                <h5 class="mt-0" style="position: relative; left: 32px; top: -30px;"><%=reply.user.name%></h5>
+                                <p style="color: white; position: relative; left: 20px;top: -25px;"><%=reply.reply%></p>
+                            </div>
+                        </div>
+                    <%})%>
+                <%}%>
+                
+
+
+                <div class="row" style="width:80%;">
+                  <div class="col-md-12" style="display: inline-flex;">
+                      <form onsubmit="return postReply(this);" style="display: none;">
+                        <input type="hidden" name="post_id" value="<%=file._id%>">
+                          <input type="hidden" name="comment_id" value="<%=comment._id%>">
+                          <input type="hidden" name="name" value="<%=users.name%>">
+                          <input type="hidden" name="img" value="<%=profile.image%>">
+                          <div class="form-group" style="margin-top:-30px;">
+                              <label>Write Reply</label>
+                                  <textarea class="form-control" name="reply" ></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Post</button>
+                      </form>
+                  </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <%})%>
+</div>
+
+<div class="comment-body" style="background-color: rgb(58, 17, 17); border-radius: 5px;padding: 5px;padding-bottom: 0px;" >
+    <form onsubmit="return postComment(this);">
+            <input type="hidden" name="post_id" value="<%=file._id%>">
+            <input type="hidden" name="username" value="<%=users.name%>">
+            <input type="hidden" name="img" value="<%=profile.image%>">
+            <input type="hidden" name="email" value="<%=users.email%>">
+        <div style="display: inline;  ">
+            <textarea name="comment" id="comment-input" placeholder="Type comment..." style="padding-top:5px;padding-left: 5px; outline: none; width: 87%; height: 40px;border-radius: 5px;"></textarea>
+            <input type="submit" id="button" class="btn btn-primary" value="Send" style="position: relative; top: -15px;">
+        </div>   
+    </form>
+</div>

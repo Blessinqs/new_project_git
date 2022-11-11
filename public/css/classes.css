@@ -1,0 +1,267 @@
+.body-container{
+    padding: 0px;
+}
+
+.class-cover{
+    margin-top: 7%;
+    height: 100px;
+    width: 100%;
+    background-image: url(/public/images/feed-image-5.png);
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+
+.class-cover .head{
+    text-align: center;
+   
+}
+.class-cover .head h3{
+    margin-top: 5px;
+}
+.class-cover .class-search{
+    height:100%;
+    width: 100%;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.class-cover .class-search input{
+    width: 300px;
+    height: 30px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    outline: none;
+    border: 2px solid teal;
+}
+
+.class-search button{
+    height: 30px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: teal;
+    padding-left: 5px;
+    padding-right: 5px;
+    outline:none;
+    border: none;
+}
+
+.class-list{
+    margin-top: 1px;
+}
+
+.class-search button a{
+    text-decoration: none;
+    color: rgb(207, 205, 205);
+}
+
+.nav-items{
+    height: 60px; 
+    width: 100%;
+    background-color: rgb(56, 52, 77);
+    border-radius: 5px;
+}
+
+.right-side{
+    height: 100%; 
+    width: 100%;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+}
+
+.right-side button{
+    padding-left: 6px;
+    padding-right: 6px; 
+    height: 100%;
+    width: 50%;
+    background-color: teal;
+    outline: none;
+    border: none; 
+}
+
+.margin-to-left{
+    margin-left: 1px;
+}
+
+.nav-items .right-side button a{
+    text-decoration: none;
+    color: rgb(219, 218, 218);
+}
+
+.container-class{
+    padding: 5px;
+    background-color: rgb(56, 52, 77);
+    border-radius: 5px;
+    margin-top:3px;  
+    margin-left: 5px;
+    margin-right: 5px;
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    grid-template-rows: 2fr 2fr;
+    grid-row: 2px;
+    grid-column: 2px;
+
+}
+.container-class .class-names{
+    background-color: rgb(82, 82, 145);
+    border-radius: 6px;
+    margin: 2px;
+    padding: 5px;
+    height: 360px;
+}
+
+.class-names .about-class img{
+    height: 100%;
+    width:100%;
+    border-radius: 5px;
+}
+
+
+.container-class .class-names .heading{
+    height: 40px;
+    width: 100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(89, 117, 168);
+    color: white;
+}
+
+
+ .about-class{
+    display: inline-flex;
+    margin-top:5px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 3px;
+    width: 100%;
+    height: 75%;
+    color: rgb(216, 209, 209);
+    background-color: rgb(89, 117, 168);
+}
+
+.shift-down{
+    margin-top: 6px;
+}
+
+.left-img{
+    width: 50%;
+    height: 100%;
+}
+
+.class-info{
+    width: 50%;
+    height: 100%;
+}
+
+.class-info div{
+    height: 20%;
+    width: 100%;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.class-info div .element{
+    background-color: rgb(44, 63, 82);
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.class-info div span{
+    margin-left: 5px;
+    font-size: 13px;
+}
+
+
+.action-btns{
+    margin-top: 3px;
+    height: 40px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.action-btns button{
+    height: 100%;
+    width: 50%;
+    border-radius: 15px; 
+    background-color: cornflowerblue; 
+    border: none; 
+    outline: none;
+}
+
+.shift-mg{
+    margin-left: 2px;
+}
+
+.action-btns button a{
+    text-decoration: none;
+    color: rgb(211, 210, 210);
+}
+
+.my-class-profile img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 25px;
+    margin-top: 10%;
+}
+
+.class-names p{
+    margin-left: 20px;
+    color: darkgrey;
+}
+.class-info {
+    background-color: darkgoldenrod;
+    width: 70%;
+    margin-left: 10px;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.about-class .class-info img{
+    height: 30px;
+    width: 35px;
+    margin-right: 10px;
+}
+
+
+.class-names h3{
+    color: darkgrey;
+    margin-left: 30%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.owner-class{
+    padding: 10px;
+}
+
+@media(max-width:900px){
+    .class-list{
+        margin-left: 2px;
+        display: block;
+       
+    }
+    .container-class{
+        width: 100%;
+    }
+    .my-class-profile{
+        height: 40%;
+    }
+
+    .my-class-profile img{
+        margin-top: 2%;
+    }
+}

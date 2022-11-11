@@ -1,0 +1,247 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>classes</title>
+    <link rel="stylesheet" href="/public/css/chatui.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="/public/css/all.min.css">
+    <link rel="stylesheet" href="/public/css/classes.css">
+    
+</head>
+<body>
+    <div class="body-container" style="display: block;">
+        <nav>
+            <div class="nav-left">
+                <h2 style="color: aliceblue; margin-left: 20px; margin-top: 5px;"> Easy Schoolz</h2>
+            </div>
+    
+            <div class="nav-right">
+                <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                    <img src="<%=profile.image%>">
+                </div>
+            </div>
+    
+            <!-------- Settings Menu -------->
+            <div class="settings-menu">
+                <div id="dark-btn">
+                    <span></span>
+                </div>
+                <div class="settings-menu-inner">
+                    <div class="user-profile">
+                        <img src="<%=profile.image%>">
+                        <div>
+                            <p><%=users.name%></p>
+                           <a href="/profile">Your Profile</a>
+                        </div>
+                    </div>
+    
+                    <div class="settings-links">
+                        <img src="/public/images/setting.png" class="settings-icon">
+                        <a href="#">Settings </a>
+                    </div>
+                    <div class="settings-links">
+                        <img src="/public/images/help.png" class="settings-icon">
+                        <a href="#">Help</a>
+                    </div>
+
+                    <div class="settings-links">
+                        <img src="/public/images/logout.png" class="settings-icon">
+                        <a href="#">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    <div class="class-cover">
+        <div class="class-search">
+            
+            <input type="text">
+            <button>
+                <a href="">Search</a>
+            </button>
+        </div>
+    </div>
+
+    <form action="/create-class" method="post" style="height: 60px; display: none;">
+            <p style="color:white;">Enter class name</p>
+            <input type="text" name="name">
+            <input type="submit" name="submit" value="create">
+    </form>
+
+    <div class="class-list">
+
+        <div class="nav-items">
+            <div class="right-side" >
+                <button >
+                    <a href="">All</a>
+                </button>
+                <button class="margin-to-left">
+                    <a href="">Joined</a>
+                </button>
+                <button class="margin-to-left">
+                    <a href="">Active</a>
+                </button>
+            </div>
+        </div>
+
+        <div class="container-class">
+            <%classes.forEach(function(room){%>
+                <div class="class-names">
+                    <div class="heading">
+                        <h4 style="text-align: center;"><%=room.description%></h4>
+                    </div>
+
+                   <div class="about-class">
+                        <div class="left-img">
+                            <img src="/public/images/feed-image-3.png"> 
+                        </div>
+                        
+                        <div class="class-info" >
+                            <div>
+                                <div class="element">
+                                    <i class="fa fa-user"></i>
+                                </div>
+
+                                <span >
+                                    Created By <br> <%=room.createdBy.name%>    
+                                </span>
+                            </div>
+
+                            <div>
+                                <div class="element">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                <span class="shift-down">Students <%=room.students.length%> </span>
+                            </div>
+
+                            <div>
+                                <div class="element">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <span class="shift-down">Class Time table</span>
+                            </div>
+                            <div>
+                                <div class="element">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                <span class="shift-down">Subjects</span>
+                            </div>      
+                        </div>
+                    </div>
+
+                    <div class="action-btns">
+                        <button>
+                            <a href="/roomJoined/<%=room._id%>" >Join Class</a>
+                        </button>
+                        <button class="shift-mg">
+                            <a href="">Ignore Class</a>
+                        </button>       
+                       
+                    </div>
+                </div>
+            <%})%>
+            <div class="class-names">
+                <div class="heading">
+                    <h4 style="text-align: center;">Chemistry</h4>
+                </div>
+
+               <div class="about-class">
+                    <img src="/public/images/feed-image-3.png" style="margin-left: 3px;"> 
+                    <div class="class-info" >
+                        <div>
+                            <div class="element">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <span>
+                                Created By <br> Joseph    
+                            </span>
+                        </div>
+                        <div>
+                            <div class="element">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <span class="shift-down">Students 9</span>
+                        </div>
+                        <div>
+                            <div class="element">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <span class="shift-down">Class Time table</span>
+                        </div>
+                        <div>
+                            <div class="element">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <span class="shift-down" >Subjects</span>
+                        </div>      
+                    </div>
+                </div>
+
+                <div class="action-btns">
+                    <button>
+                        <a href="/roomJoined/" >Join Class</a>
+                    </button>
+                    <button>
+                        <a href="">Ignore Class</a>
+                    </button>       
+                   
+                </div>
+            </div>
+
+            <div class="class-names">
+                <div class="heading">
+                    <h4 style="text-align: center;">Physics</h4>
+                </div>
+
+               <div class="about-class">
+                    <img src="/public/images/feed-image-3.png" style="margin-left: 3px;"> 
+                    <div class="class-info" >
+                        <div>
+                            <div class="element">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <span style="">
+                                Created By <br> James    
+                            </span>
+                        </div>
+                        <div>
+                            <div class="element">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <span class="shift-down">Students 15 </span>
+                        </div>
+                        <div>
+                            <div class="element">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <span class="shift-down">Class Time table</span>
+                        </div>
+                        <div>
+                            <div class="element">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <span class="shift-down">Subjects</span>
+                        </div>      
+                    </div>
+                </div>
+
+                <div class="action-btns">
+                    <button>
+                        <a href="/roomJoined/" >Join Class</a>
+                    </button>
+                    <button>
+                        <a href="">Ignore Class</a>
+                    </button>       
+                   
+                </div>
+            </div>
+
+
+            
+       </div>
+    </div>
+</div>
+</body>
+</html>
