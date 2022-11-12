@@ -59,7 +59,7 @@ let gfs;
 
 const store = multer.diskStorage({
     destination: function(req,file,cb){
-        cb(null,'https://drive.google.com/drive/my-drive/videos');
+        cb(null,'https://drive.google.com/drive/folders/1mMo4fYzp4zPHlSNSEVbBuno7dEQTaZkx?usp=sharing');
     },
     filename:function(req,file,cb){
         cb(null,Date.now()+file.originalname);
@@ -68,7 +68,7 @@ const store = multer.diskStorage({
 
 const store2 = multer.diskStorage({
     destination: function(req,file,cb){
-        cb(null,'https://drive.google.com/drive/my-drive/videos');
+        cb(null,'https://drive.google.com/drive/folders/1mMo4fYzp4zPHlSNSEVbBuno7dEQTaZkx?usp=sharing');
     },
     filename:function(req,file,cb){
         cb(null,Date.now()+file.originalname);
