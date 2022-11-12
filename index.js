@@ -59,7 +59,7 @@ let gfs;
 
 const store = multer.diskStorage({
     destination: function(req,file,cb){
-        cb(null,'https://drive.google.com/drive/folders/1mMo4fYzp4zPHlSNSEVbBuno7dEQTaZkx?usp=sharing');
+        cb(null,'drive.google.com/drive/folders/1mMo4fYzp4zPHlSNSEVbBuno7dEQTaZkx?usp=share_link');
     },
     filename:function(req,file,cb){
         cb(null,Date.now()+file.originalname);
@@ -68,7 +68,7 @@ const store = multer.diskStorage({
 
 const store2 = multer.diskStorage({
     destination: function(req,file,cb){
-        cb(null,'https://drive.google.com/drive/folders/1mMo4fYzp4zPHlSNSEVbBuno7dEQTaZkx?usp=sharing');
+        cb(null,'drive.google.com/drive/folders/1mMo4fYzp4zPHlSNSEVbBuno7dEQTaZkx?usp=share_link');
     },
     filename:function(req,file,cb){
         cb(null,Date.now()+file.originalname);
@@ -1032,7 +1032,7 @@ http.listen(PORT,async ()=>{
 
     app.post("/do-upload-video",uploadVideo.single('video'),(req,res)=>{
         if(req.file){
-            res.send("/"+req.file.path.replace(/\\/g,'/').replace(/\\/g,'/'));
+            res.send("https://"+req.file.path.replace(/\\/g,'/').replace(/\\/g,'/'));
         } 
     })
 
@@ -1064,7 +1064,7 @@ http.listen(PORT,async ()=>{
 
     app.post("/do-upload-file",uploadImage.single('image'),(req,res)=>{
         if(req.file){
-            res.send("/"+req.file.path.replace(/\\/g,'/').replace(/\\/g,'/'));
+            res.send("https://"+req.file.path.replace(/\\/g,'/').replace(/\\/g,'/'));
         } 
     })
 
